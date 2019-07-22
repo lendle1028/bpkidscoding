@@ -3,7 +3,7 @@ body {
     padding: 0;
 }
 
-.container {
+#container {
     display: flex;
     height: 100%;
     flex-direction: row;
