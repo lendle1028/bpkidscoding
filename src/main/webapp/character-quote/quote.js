@@ -14,14 +14,21 @@ class Quote {
     };
   }
 
+  constructor({data}){
+    this.data=data;
+  }
+
   render() {
     let self = this;
     this.character = "test1";
     this.container = document.createElement("div");
     let container = this.container;
     $(container).html("<table border='1' style='width: 100%'><tr><td class='character' style='width: 120px'>123</td><td class='quote'>123</td></tr></table>");
-    $(container).find(".character").html("test1");
+    $(container).find(".character").html(this.data?this.data.character:"");
     $(container).find(".quote").html("<input type='text' class='quoteMessage' style='width: 100%' value=''/>");
+    if(this.data){
+      $($(container).find(".quoteMessage").get(0)).val(this.data.message);
+    }
     $(container).find(".character").click(function () {
       self.switch2CharacterSelect();
     });
