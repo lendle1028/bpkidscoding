@@ -13,11 +13,31 @@
     <link href="quote.css" rel="stylesheet" />
     <link href="separator.css" rel="stylesheet" />
     <link href="os.css" rel="stylesheet" />
+    <link href="main.css" rel="stylesheet" />
     <link href="https://code.jquery.com/ui/1.12.1/themes/le-frog/jquery-ui.css" rel="stylesheet" />
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
+    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" /-->
 </head>
 
 <body>
-    <div id="editorjs"></div>
+    <div id="container" style="border-style: solid; border-width: 1px">
+        <div id="tree" style="border-style: solid; border-width: 1px; ">
+            <ul>
+                <li>Thing1</li>
+                <li>Thing2</li>
+                <li>Thing3</li>
+            </ul>
+        </div>
+        <div id="test2" style="border-style: solid; border-width: 1px; ">
+                <ul>
+                    <li>Thing1</li>
+                    <li>Thing2</li>
+                    <li>Thing3</li>
+                </ul>
+            </div>
+        <!---div id="editorjs"></div-->
+    </div>
+
     <button onclick="save();">Save</button>
 
     <script>
@@ -26,16 +46,17 @@
             tools: {
                 characterQuote: Quote,
                 separator: Separator,
-                os:Os
+                os: Os
             },
-            data: {"time":1563781369246,"blocks":[{"type":"characterQuote","data":{"character":"test2","message":"111"}},{"type":"os","data":{"message":"12121"}},{"type":"separator","data":{}}],"version":"2.15.0"}
+            data: { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "111" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" }
         });
 
         function save() {
             editor.save().then(savedData => {
-               console.log(JSON.stringify(savedData));
+                console.log(JSON.stringify(savedData));
             });
         }
+
     </script>
     <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a
             href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a

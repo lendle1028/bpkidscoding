@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+}
+
+#tree {
+    /*flex: 1; prevents resize!*/
+    min-width: 200px;
+    background-color: #cfc;
+    border-style: solid;
+    border-width: 1px;
+    resize: horizontal;
+    overflow: auto;
+}
+
+#test2 {
+    min-width: 200px;
+    flex: 3;
+    background-color: #cfe;
+    border-style: solid;
+    border-width: 1px;
+}
