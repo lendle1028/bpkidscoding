@@ -20,29 +20,68 @@
 </head>
 
 <body>
-    <div id="container" style="border-style: solid; border-width: 1px">
-        <div id="tree" style="border-style: solid; border-width: 1px; ">
-            <ul>
-                <li>Thing1</li>
-                <li>Thing2</li>
-                <li>Thing3</li>
-            </ul>
+    <div id="container">
+        <div id="tree">
+            <table style="width: 100%;">
+                <tr>
+                    <td>書名</td>
+                </tr>
+                <tr>
+                    <td>簡介</td>
+                </tr>
+                <tr>
+                    <td>角色介紹</td>
+                </tr>
+                <tr>
+                    <td onclick="flip(0);">第一頁</td>
+                </tr>
+                <tr>
+                    <td onclick="flip(1);">第二頁</td>
+                </tr>
+                <tr>
+                    <td onclick="flip(2);">第三頁</td>
+                </tr>
+            </table>
         </div>
-        <div id="editorjs"></div>
+        <div id="editorContainer">
+            <!--div id="editorjs"></div-->
+        </div>
     </div>
 
     <button onclick="save();">Save</button>
 
     <script>
-        const editor = new EditorJS({
-            autofocus: true,
-            tools: {
-                characterQuote: Quote,
-                separator: Separator,
-                os: Os
+        function flip(index) {
+            $("#editorContainer").empty();
+            let editorUI = document.createElement("div");
+            $(editorUI).attr("id", "editorjs");
+            $("#editorContainer").append($(editorUI));
+            const editor = new EditorJS({
+                holderId: 'editorjs',
+                autofocus: true,
+                tools: {
+                    characterQuote: Quote,
+                    separator: Separator,
+                    os: Os
+                },
+                data: data.data[index]
+            });
+        }
+
+        let data = {
+            title: "Book1",
+            summary: "簡介內容",
+            characters: {
+                "test1": "test1",
+                "test2": "test2",
+                "test3": "test3"
             },
-            data: { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "111" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" }
-        });
+            data: [
+                { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "111" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" },
+                { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "112" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" },
+                { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "113" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" }
+            ]
+        };
 
         function save() {
             editor.save().then(savedData => {
