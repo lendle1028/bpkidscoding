@@ -72,8 +72,8 @@
                 os: Os
             }
         };
-        var currentEditorType=null;
-        var currentPage=-1;
+        var currentEditorType = null;
+        var currentPage = -1;
         function showEditBookNameDialog() {
             $("#editBookNameDialog_name").val(data.title);
             $("#editBookNameDialog").dialog({
@@ -106,7 +106,7 @@
         }
 
         function flip(index) {
-            currentPage=index;
+            currentPage = index;
             showEditorJSUI(data.data[index], TOOL_SET.PAGE);
         }
 
@@ -116,15 +116,25 @@
                 currentEditor.save().then(savedData => {
                     if (currentData != null) {
                         let modified = EditorDataProcessor.isModified(savedData, currentData);
-                        if(modified){
-                            let save=window.confirm("是否儲存?");
+                        if (modified) {
+                            let save = window.confirm("是否儲存?");
                             //todo: 儲存
+                            if (save) {
+                                if (currentEditorType == "page") {
+                                    data.data[currentPage] = savedData;
+                                } else if (currentEditorType == "summary") {
+                                    data.summary = savedData;
+                                    console.log(data);
+                                } else {
+                                    data.characters = savedData;
+                                }
+                            }
                         }
                         //then, load the editor
                         _showEditorJSUI(data, toolset);
                     }
                 });
-            }else{
+            } else {
                 _showEditorJSUI(data, toolset);
             }
         }
@@ -132,12 +142,12 @@
          * an internal function to load editorjs
          */
         function _showEditorJSUI(data, toolset) {
-            if(toolset==TOOL_SET.PAGE){
-                currentEditorType="page";
-            }else if(toolset==TOOL_SET.CHARACTERS){
-                currentEditorType="characters";
-            }else{
-                currentEditorType="summary";
+            if (toolset == TOOL_SET.PAGE) {
+                currentEditorType = "page";
+            } else if (toolset == TOOL_SET.CHARACTERS) {
+                currentEditorType = "characters";
+            } else {
+                currentEditorType = "summary";
             }
             currentData = data;
             $("#editorContainer").empty();
