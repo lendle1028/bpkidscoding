@@ -73,6 +73,7 @@
             }
         };
         var currentEditorType=null;
+        var currentPage=-1;
         function showEditBookNameDialog() {
             $("#editBookNameDialog_name").val(data.title);
             $("#editBookNameDialog").dialog({
@@ -105,6 +106,7 @@
         }
 
         function flip(index) {
+            currentPage=index;
             showEditorJSUI(data.data[index], TOOL_SET.PAGE);
         }
 
