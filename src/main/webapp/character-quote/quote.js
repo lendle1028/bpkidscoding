@@ -20,7 +20,7 @@ class Quote {
 
   render() {
     let self = this;
-    this.character = "test1";
+    this.character = this.data.character;
     this.container = document.createElement("div");
     let container = this.container;
     $(container).html("<table border='1' style='width: 100%'><tr><td class='character' style='width: 120px'>123</td><td class='quote'>123</td></tr></table>");
