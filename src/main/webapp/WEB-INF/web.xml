@@ -9,6 +9,10 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <listener>
+        <description>ServletContextListener</description>
+        <listener-class>rocks.imsofa.bp.kidscoding.editor.StartupListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>Jersey Web Application</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
