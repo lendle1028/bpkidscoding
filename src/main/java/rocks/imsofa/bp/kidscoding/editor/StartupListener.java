@@ -5,8 +5,10 @@
  */
 package rocks.imsofa.bp.kidscoding.editor;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Web application lifecycle listener.
@@ -14,9 +16,12 @@ import javax.servlet.ServletContextListener;
  * @author lendle
  */
 public class StartupListener implements ServletContextListener {
-
+    @Autowired
+    private org.springframework.jdbc.datasource.DriverManagerDataSource dataSource;
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        ServletContext servletContext=sce.getServletContext();
+        dataSource.setUrl("jdbc:hsqldb:file:"+servletContext.getRealPath("/WEB-INF/db"));
     }
 
     @Override
