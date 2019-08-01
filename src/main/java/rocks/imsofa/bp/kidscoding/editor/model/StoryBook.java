@@ -5,6 +5,7 @@
  */
 package rocks.imsofa.bp.kidscoding.editor.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class StoryBook {
     private String lastEditedDate;
     private String summary;
     private String characters;
-    private List<String> pageContents;
+    private List<String> pageContents=new ArrayList<>();
     private int id;
 
     public int getId() {
