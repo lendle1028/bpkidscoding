@@ -14,19 +14,19 @@ import java.util.List;
  */
 public class StoryBook {
     private String title;
-    private String author;
+    private int author;
     private String createdDate;
     private String lastEditedDate;
     private String summary;
     private String characters;
     private List<String> pageContents=new ArrayList<>();
-    private int id;
+    private String id;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -38,11 +38,11 @@ public class StoryBook {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public int getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(int author) {
         this.author = author;
     }
 
