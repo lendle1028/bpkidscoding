@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: localhost:3306
--- 產生時間： 2019 年 08 月 04 日 21:53
+-- 產生時間： 2019 年 08 月 05 日 07:00
 -- 伺服器版本: 5.7.26-0ubuntu0.18.04.1
 -- PHP 版本： 7.2.17-0ubuntu0.18.04.1
 
@@ -29,11 +29,12 @@ USE `bpkidscoding`;
 --
 
 DROP TABLE IF EXISTS `characters`;
-CREATE TABLE `characters` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `characters` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `STORY` varchar(255) DEFAULT NULL,
-  `CONTENT` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `CONTENT` text,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- 資料表新增前先清除舊資料 `characters`
@@ -54,13 +55,14 @@ INSERT INTO `characters` (`ID`, `STORY`, `CONTENT`) VALUES
 --
 
 DROP TABLE IF EXISTS `story`;
-CREATE TABLE `story` (
+CREATE TABLE IF NOT EXISTS `story` (
   `ID` varchar(255) NOT NULL,
   `AUTHOR` int(11) DEFAULT NULL,
   `CREATED_DATE` varchar(8) DEFAULT NULL,
   `LAST_EDITED_DATE` varchar(8) DEFAULT NULL,
   `TITLE` varchar(255) DEFAULT NULL,
-  `SUMMARY` text
+  `SUMMARY` text,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -82,12 +84,13 @@ INSERT INTO `story` (`ID`, `AUTHOR`, `CREATED_DATE`, `LAST_EDITED_DATE`, `TITLE`
 --
 
 DROP TABLE IF EXISTS `storycontent`;
-CREATE TABLE `storycontent` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `storycontent` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `STORY` varchar(255) DEFAULT NULL,
   `PAGE` int(11) DEFAULT NULL,
-  `CONTENT` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `CONTENT` text,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- 資料表新增前先清除舊資料 `storycontent`
@@ -106,17 +109,35 @@ INSERT INTO `storycontent` (`ID`, `STORY`, `PAGE`, `CONTENT`) VALUES
 -- --------------------------------------------------------
 
 --
+-- 替換檢視表以便查看 `storymeta`
+-- (請參考以下實際畫面)
+--
+DROP VIEW IF EXISTS `storymeta`;
+CREATE TABLE IF NOT EXISTS `storymeta` (
+`ID` varchar(255)
+,`AUTHOR` int(11)
+,`CREATED_DATE` varchar(8)
+,`LAST_EDITED_DATE` varchar(8)
+,`TITLE` varchar(255)
+,`SUMMARY` text
+,`characters` text
+);
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `users`
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `USER_ID` varchar(255) DEFAULT NULL,
   `EMAIL` varchar(255) DEFAULT NULL,
   `JOIN_DATE` varchar(8) DEFAULT NULL,
-  `LAST_LOGIN` varchar(8) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `LAST_LOGIN` varchar(8) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- 資料表新增前先清除舊資料 `users`
@@ -130,53 +151,15 @@ TRUNCATE TABLE `users`;
 INSERT INTO `users` (`ID`, `USER_ID`, `EMAIL`, `JOIN_DATE`, `LAST_LOGIN`) VALUES
 (1, 'lendle', 'lendle.tseng@gmail.com', '20190101', '20190101');
 
---
--- 已匯出資料表的索引
---
+-- --------------------------------------------------------
 
 --
--- 資料表索引 `characters`
+-- 檢視表結構 `storymeta`
 --
-ALTER TABLE `characters`
-  ADD PRIMARY KEY (`ID`);
+DROP TABLE IF EXISTS `storymeta`;
 
---
--- 資料表索引 `story`
---
-ALTER TABLE `story`
-  ADD PRIMARY KEY (`ID`);
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `storymeta`  AS  (select `story`.`ID` AS `ID`,`story`.`AUTHOR` AS `AUTHOR`,`story`.`CREATED_DATE` AS `CREATED_DATE`,`story`.`LAST_EDITED_DATE` AS `LAST_EDITED_DATE`,`story`.`TITLE` AS `TITLE`,`story`.`SUMMARY` AS `SUMMARY`,`characters`.`CONTENT` AS `characters` from (`story` join `characters`) where (`story`.`ID` = `characters`.`STORY`)) ;
 
---
--- 資料表索引 `storycontent`
---
-ALTER TABLE `storycontent`
-  ADD PRIMARY KEY (`ID`);
-
---
--- 資料表索引 `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`ID`);
-
---
--- 在匯出的資料表使用 AUTO_INCREMENT
---
-
---
--- 使用資料表 AUTO_INCREMENT `characters`
---
-ALTER TABLE `characters`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
---
--- 使用資料表 AUTO_INCREMENT `storycontent`
---
-ALTER TABLE `storycontent`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- 使用資料表 AUTO_INCREMENT `users`
---
-ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
