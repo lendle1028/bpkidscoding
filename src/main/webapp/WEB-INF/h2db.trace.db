@@ -1,0 +1,72 @@
+2019-08-03 21:11:58 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Duplicate column name "ID"; SQL statement:
+SELECT COUNT(*) FROM (select story.*, users.*,characters.content as cs, storycontent.* from story left join users on story.author=users.id left join characters on characters.story=story.id, storycontent where story.id=storycontent.story and story.id=0 order by page) C2668 [42121-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.table.Table.setColumns(Table.java:429)
+	at org.h2.table.TableView.initColumnsAndTables(TableView.java:216)
+	at org.h2.table.TableView.init(TableView.java:98)
+	at org.h2.table.TableView.<init>(TableView.java:65)
+	at org.h2.table.TableView.createTempView(TableView.java:528)
+	at org.h2.command.Parser.readTableFilter(Parser.java:1180)
+	at org.h2.command.Parser.parseSelectSimpleFromPart(Parser.java:1884)
+	at org.h2.command.Parser.parseSelectSimple(Parser.java:2032)
+	at org.h2.command.Parser.parseSelectSub(Parser.java:1878)
+	at org.h2.command.Parser.parseSelectUnion(Parser.java:1699)
+	at org.h2.command.Parser.parseSelect(Parser.java:1687)
+	at org.h2.command.Parser.parsePrepared(Parser.java:443)
+	at org.h2.command.Parser.parse(Parser.java:315)
+	at org.h2.command.Parser.parse(Parser.java:287)
+	at org.h2.command.Parser.prepareCommand(Parser.java:252)
+	at org.h2.engine.Session.prepareLocal(Session.java:560)
+	at org.h2.engine.Session.prepareCommand(Session.java:501)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1188)
+	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:73)
+	at org.netbeans.modules.db.dataview.output.SQLExecutionHelper.getTotalCount(SQLExecutionHelper.java:908)
+	at org.netbeans.modules.db.dataview.output.SQLExecutionHelper.access$900(SQLExecutionHelper.java:84)
+	at org.netbeans.modules.db.dataview.output.SQLExecutionHelper$1Loader.run(SQLExecutionHelper.java:182)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openide.util.RequestProcessor$Task.run(RequestProcessor.java:1443)
+	at org.netbeans.modules.openide.util.GlobalLookup.execute(GlobalLookup.java:68)
+	at org.openide.util.lookup.Lookups.executeWith(Lookups.java:303)
+	at org.openide.util.RequestProcessor$Processor.run(RequestProcessor.java:2058)
+2019-08-03 21:11:58 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Column "PAGE" must be in the GROUP BY list; SQL statement:
+SELECT COUNT(*) from story left join users on story.author=users.id left join characters on characters.story=story.id, storycontent where story.id=storycontent.story and story.id=0 order by page [90016-191]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.updateAggregate(ExpressionColumn.java:169)
+	at org.h2.command.dml.Select.queryGroup(Select.java:364)
+	at org.h2.command.dml.Select.queryWithoutCache(Select.java:649)
+	at org.h2.command.dml.Query.query(Query.java:341)
+	at org.h2.command.dml.Query.query(Query.java:309)
+	at org.h2.command.dml.Query.query(Query.java:36)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:110)
+	at org.h2.command.Command.executeQuery(Command.java:201)
+	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:79)
+	at org.netbeans.modules.db.dataview.output.SQLExecutionHelper.getTotalCount(SQLExecutionHelper.java:922)
+	at org.netbeans.modules.db.dataview.output.SQLExecutionHelper.access$900(SQLExecutionHelper.java:84)
+	at org.netbeans.modules.db.dataview.output.SQLExecutionHelper$1Loader.run(SQLExecutionHelper.java:182)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at org.openide.util.RequestProcessor$Task.run(RequestProcessor.java:1443)
+	at org.netbeans.modules.openide.util.GlobalLookup.execute(GlobalLookup.java:68)
+	at org.openide.util.lookup.Lookups.executeWith(Lookups.java:303)
+	at org.openide.util.RequestProcessor$Processor.run(RequestProcessor.java:2058)
+2019-08-03 21:27:54 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Table "characters" not found; SQL statement:
+ALTER TABLE "characters"
+RENAME COLUMN "content" TO "character_content" [42102-191]
+2019-08-03 21:28:17 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE ""CHARACTERS""
+RENAME COLUMN[*] ""content"" TO ""character_content"""; expected "TO"; SQL statement:
+ALTER TABLE "CHARACTERS"
+RENAME COLUMN "content" TO "character_content" [42001-191]
+2019-08-03 21:28:48 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE CHARACTERS
+RENAME COLUMN[*] CONTENT TO CHARACTER_CONTENT "; expected "TO"; SQL statement:
+ALTER TABLE CHARACTERS
+RENAME COLUMN content TO character_content [42001-191]

@@ -11,7 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
+import rocks.imsofa.bp.kidscoding.editor.service.StoryBookService;
 
 /**
  *
@@ -20,17 +21,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Path("book")
 public class StoryBookWS {
     @Autowired
-    private JdbcTemplate jdbcTemplate=null;
+    private StoryBookService storyBookService=null;
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public void setStoryBookService(StoryBookService storyBookService) {
+        this.storyBookService = storyBookService;
     }
     
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public StoryBookWS getStoryBook(@PathParam("id") int id){
-        StoryBookWS book=new StoryBookWS();
-        return book;
+    public StoryBook getStoryBook(@PathParam("id") int id){
+        return storyBookService.getStoryBook(id);
     }
 }
