@@ -13,7 +13,7 @@ import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
  */
 public interface StoryBookService {
     public StoryBook getStoryBook(int id);
-    public boolean addStoryBook(StoryBook storyBook);
-    public boolean updateStoryBook(StoryBook storyBook);
-    public boolean deleteStoryBook(int id);
+    public StoryBook addStoryBook(StoryBook storyBook);
+    public StoryBook updateStoryBook(StoryBook storyBook);
+    public boolean deleteStoryBook(String id);
 }
