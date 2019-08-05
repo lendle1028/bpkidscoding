@@ -15,7 +15,7 @@
     <link href="separator.css" rel="stylesheet" />
     <link href="os.css" rel="stylesheet" />
     <link href="main.css" rel="stylesheet" />
-    <link href="https://code.jquery.com/ui/1.12.1/themes/le-frog/jquery-ui.css" rel="stylesheet" />
+    <link href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" /-->
@@ -35,16 +35,7 @@
                     <tr>
                         <td onclick="flipCharacters();">角色設定</td>
                     </tr>
-                    <tr v-for="(page, index) in pages"><td>{{index+1}}</td></tr>
-                    <tr>
-                        <td onclick="flip(0);">第一頁</td>
-                    </tr>
-                    <tr>
-                        <td onclick="flip(1);">第二頁</td>
-                    </tr>
-                    <tr>
-                        <td onclick="flip(2);">第三頁</td>
-                    </tr>
+                    <tr v-for="(page, index) in pages"><td v-on:click="select(index+1)">第{{index+1}}頁</td></tr>
                 </table>
             </div>
             <div id="editorContainer">
@@ -182,6 +173,12 @@
             el:"#tree",
             data:{
                 pages:data.data
+            },
+            methods:{
+                select:function(index){
+                    console.log(index);
+                    flip(index);
+                }
             }
         });
 

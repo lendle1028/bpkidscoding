@@ -12,7 +12,6 @@ class Os {
 
   render() {
     this.container = document.createElement("textarea");
-    $(this.container).css("width", "100%");
     $(this.container).attr("rows", "10");
     $(this.container).addClass("os");
     if(this.data){
