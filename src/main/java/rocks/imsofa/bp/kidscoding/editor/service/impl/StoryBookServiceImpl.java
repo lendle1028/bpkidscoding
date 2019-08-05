@@ -38,7 +38,7 @@ public class StoryBookServiceImpl implements StoryBookService {
             StoryBookMeta meta=new StoryBookMeta();
             storyBook.setId(rs.getString("id"));
             meta.setId(rs.getString("id"));
-            meta.setAuthor(rs.getInt("user_id"));
+            meta.setAuthor(rs.getInt("author"));
             meta.setCharacters(rs.getString("characters"));
             meta.setCreatedDate(rs.getString("CREATED_DATE"));//
             meta.setLastEditedDate(rs.getString("last_edited_date"));

@@ -24,5 +24,5 @@
           class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
-    <context:component-scan base-package="rocks.imsofa.bp.kidscoding.editor, rocks.imsofa.bp.kidscoding.editor.service"/>
+    <context:component-scan base-package="rocks.imsofa.bp.kidscoding.editor, rocks.imsofa.bp.kidscoding.editor.service, rocks.imsofa.bp.kidscoding.editor.servlet"/>
 </beans>
