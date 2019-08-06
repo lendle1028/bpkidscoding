@@ -59,7 +59,7 @@ public class PostLogin extends HttpServlet {
         if (rs.next()) {
             jdbcTemplate.update("update users set last_login=? where google_account=?", now, googleAccount);
             session.setAttribute("login", googleAccount);
-            response.sendRedirect("character-quote/index.1.html");
+            response.sendRedirect("index.jsp");
         } else {
             session.setAttribute("register", googleAccount);
             response.sendRedirect("register.jsp");

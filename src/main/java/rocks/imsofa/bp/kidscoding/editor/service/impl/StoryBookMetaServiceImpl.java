@@ -30,7 +30,23 @@ public class StoryBookMetaServiceImpl implements StoryBookMetaService{
     
     @Override
     public List<StoryBookMeta> findAll() {
-        return jdbcTemplate.query("select * from storymeta order by title", new StoryBookMetaRowMapper());
+        return this.findAll(100, 0);
+    }
+
+    @Override
+    public List<StoryBookMeta> findByAuthor(String author) {
+        return this.findByAuthor(author, 100, 0);
+    }
+
+    @Override
+    public List<StoryBookMeta> findByKeywords(String keywords) {
+        return this.findByKeywords(keywords, 100, 0);
+    }
+
+    @Override
+    public List<StoryBookMeta> findAll(int pageSize, int pageIndex) {
+        System.out.println("pageSize="+pageSize+", pageIndex="+pageIndex);
+        return jdbcTemplate.query("select * from storymeta order by title limit ?, ?", new StoryBookMetaRowMapper(), pageSize*pageIndex, pageSize);
     }
 
     @Override
@@ -39,19 +55,19 @@ public class StoryBookMetaServiceImpl implements StoryBookMetaService{
     }
 
     @Override
-    public List<StoryBookMeta> findByAuthor(String author) {
+    public List<StoryBookMeta> findByAuthor(String author, int pageSize, int pageIndex) {
         SqlRowSet rs=jdbcTemplate.queryForRowSet("select * from users where user_id=?", author);
         if(rs.next()){
-            return jdbcTemplate.query("select * from storymeta where author=? order by title", new StoryBookMetaRowMapper(), rs.getInt("id"));
+            return jdbcTemplate.query("select * from storymeta where author=? order by title limit ?, ?", new StoryBookMetaRowMapper(), rs.getInt("id"), pageSize*pageIndex, pageSize);
         }else{
             return new ArrayList<>();
         }
     }
 
     @Override
-    public List<StoryBookMeta> findByKeywords(String keywords) {
-        return jdbcTemplate.query("select * from storymeta where title like ? or summary like ? or characters like ? order by title", new StoryBookMetaRowMapper(),
-                "%"+keywords+"%", "%"+keywords+"%", "%"+keywords+"%");
+    public List<StoryBookMeta> findByKeywords(String keywords, int pageSize, int pageIndex) {
+        return jdbcTemplate.query("select * from storymeta where title like ? or summary like ? or characters like ? order by title limit ?,?", new StoryBookMetaRowMapper(),
+                "%"+keywords+"%", "%"+keywords+"%", "%"+keywords+"%", pageSize*pageIndex, pageSize);
     }
     
 }

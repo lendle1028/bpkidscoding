@@ -14,7 +14,10 @@ import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta;
  */
 public interface StoryBookMetaService {
     public List<StoryBookMeta> findAll();
+    public List<StoryBookMeta> findAll(int pageSize, int pageIndex);
     public StoryBookMeta findById(String id);
     public List<StoryBookMeta> findByAuthor(String author);
+    public List<StoryBookMeta> findByAuthor(String author, int pageSize, int pageIndex);
     public List<StoryBookMeta> findByKeywords(String keywords);
+    public List<StoryBookMeta> findByKeywords(String keywords, int pageSize, int pageIndex);
 }

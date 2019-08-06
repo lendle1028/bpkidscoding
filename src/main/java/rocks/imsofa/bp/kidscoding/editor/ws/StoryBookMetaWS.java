@@ -6,10 +6,12 @@
 package rocks.imsofa.bp.kidscoding.editor.ws;
 
 import java.util.List;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta;
@@ -30,8 +32,8 @@ public class StoryBookMetaWS {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<StoryBookMeta> findAll() {
-        return storyBookMetaService.findAll();
+    public List<StoryBookMeta> findAll(@QueryParam("pageSize") @DefaultValue("100") int pageSize, @QueryParam("pageIndex") @DefaultValue("0") int pageIndex) {
+        return storyBookMetaService.findAll(pageSize, pageIndex);
     }
 
     @GET
@@ -44,14 +46,14 @@ public class StoryBookMetaWS {
     @GET
     @Path("author/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<StoryBookMeta> findByAuthor(@PathParam("id") String author) {
-        return storyBookMetaService.findByAuthor(author);
+    public List<StoryBookMeta> findByAuthor(@PathParam("id") String author, @QueryParam("pageSize") @DefaultValue("100") int pageSize, @QueryParam("pageIndex") @DefaultValue("0") int pageIndex) {
+        return storyBookMetaService.findByAuthor(author, pageSize, pageIndex);
     }
 
     @GET
     @Path("keyword/{word}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<StoryBookMeta> findByKeywords(@PathParam("word") String keyword) {
-        return storyBookMetaService.findByKeywords(keyword);
+    public List<StoryBookMeta> findByKeywords(@PathParam("word") String keyword, @QueryParam("pageSize") @DefaultValue("100") int pageSize, @QueryParam("pageIndex") @DefaultValue("0") int pageIndex) {
+        return storyBookMetaService.findByKeywords(keyword, pageSize, pageIndex);
     } 
 }
