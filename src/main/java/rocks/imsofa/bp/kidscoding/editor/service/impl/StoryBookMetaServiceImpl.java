@@ -45,7 +45,6 @@ public class StoryBookMetaServiceImpl implements StoryBookMetaService{
 
     @Override
     public List<StoryBookMeta> findAll(int pageSize, int pageIndex) {
-        System.out.println("pageSize="+pageSize+", pageIndex="+pageIndex);
         return jdbcTemplate.query("select * from storymeta order by title limit ?, ?", new StoryBookMetaRowMapper(), pageSize*pageIndex, pageSize);
     }
 
