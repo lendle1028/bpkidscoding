@@ -60,7 +60,7 @@ public class PostRegister extends HttpServlet {
         jdbcTemplate.update("insert into users (user_id, email, join_date, last_login, google_account) values (?,?,?,?,?)",
                 userId, email, now, now, googleAccount);
         session.setAttribute("login", googleAccount);
-        response.sendRedirect("character-quote/index.1.html");
+        response.sendRedirect("index.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
