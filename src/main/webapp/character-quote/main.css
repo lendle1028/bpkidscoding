@@ -14,7 +14,6 @@ body {
     width: 100vw;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
 }
 #content {
     display: flex;
@@ -25,7 +24,7 @@ body {
 #tree {
     /*flex: 1; prevents resize!*/
     min-width: 200px;
-    background-color: #cfc;
+    background-color: #FFB5B5;
     border-style: solid;
     border-width: 1px;
     resize: horizontal;
@@ -38,7 +37,32 @@ body {
 #editorContainer {
     min-width: 200px;
     flex: 3;
-    background-color: #cfe;
+    background-color: rgb(150, 247, 214);
     border-style: solid;
     border-width: 1px;
 }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #00D6D6;
+    background-color: #00C7C7;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: #B8B8FF;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover:not(.active) {
+    background-color: #00BDBD;
+  }

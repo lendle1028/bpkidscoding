@@ -15,16 +15,34 @@
     <link href="separator.css" rel="stylesheet" />
     <link href="os.css" rel="stylesheet" />
     <link href="main.css" rel="stylesheet" />
-    <link href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css" rel="stylesheet" />
+    <link href="https://code.jquery.com/ui/1.11.4/themes/redmond/jquery-ui.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" /-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <div id="container">
         <div id="header">
-            <h1 id="title" onclick="showEditBookNameDialog();">書名</h1>&nbsp;<h2 id="page">第一頁</h2>
+            <!--h1 id="title" onclick="showEditBookNameDialog();">書名</h1>&nbsp;<h2 id="page">第一頁</h2-->
+            
+                <ul class="nav nav-tabs" role="tablist">
+                    <a class="navbar-brand" onclick="showEditBookNameDialog();">書名</a>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="pill" onclick="flipIntro();">故事大綱</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="pill" onclick="flipCharacters();">角色設定</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="pill">故事編輯</a>
+                    </li>
+                </ul>
+            
         </div>
         <div id="content">
             <div id="tree">
@@ -35,7 +53,9 @@
                     <tr>
                         <td onclick="flipCharacters();">角色設定</td>
                     </tr>
-                    <tr v-for="(page, index) in pages"><td v-on:click="select(index+1)">第{{index+1}}頁</td></tr>
+                    <tr v-for="(page, index) in pages">
+                        <td v-on:click="select(index+1)">第{{index+1}}頁</td>
+                    </tr>
                 </table>
             </div>
             <div id="editorContainer">
@@ -101,7 +121,7 @@
 
         function flip(index) {
             currentPage = index;
-            $("#page").html("第"+(index+1)+"頁");
+            $("#page").html("第" + (index + 1) + "頁");
             showEditorJSUI(data.data[index], TOOL_SET.PAGE);
         }
 
@@ -170,12 +190,12 @@
         };
 
         new Vue({
-            el:"#tree",
-            data:{
-                pages:data.data
+            el: "#tree",
+            data: {
+                pages: data.data
             },
-            methods:{
-                select:function(index){
+            methods: {
+                select: function (index) {
                     console.log(index);
                     flip(index);
                 }
