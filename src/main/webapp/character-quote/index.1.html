@@ -2,10 +2,10 @@
 
 <head>
     <meta charset="utf-8" />
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <!--script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script-->
+    <!--script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script-->
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
     <script src="quote.js"></script>
     <script src="separator.js"></script>
@@ -15,21 +15,26 @@
     <link href="separator.css" rel="stylesheet" />
     <link href="os.css" rel="stylesheet" />
     <link href="main.css" rel="stylesheet" />
-    <link href="https://code.jquery.com/ui/1.11.4/themes/redmond/jquery-ui.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" /-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#tabs").tabs();
+        });
+    </script>
 </head>
 
 <body>
     <div id="container">
-        <div id="header">
+        <div id="tabs">
             <!--h1 id="title" onclick="showEditBookNameDialog();">書名</h1>&nbsp;<h2 id="page">第一頁</h2-->
-            
-                <ul class="nav nav-tabs" role="tablist">
+
+            <!--ul class="nav nav-tabs" role="tablist">
                     <a class="navbar-brand" onclick="showEditBookNameDialog();">書名</a>
 
                     <li class="nav-item">
@@ -41,12 +46,18 @@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="pill">故事編輯</a>
                     </li>
-                </ul>
-            
+                </ul>-->
+            <ul>
+                <li><a href="#tabs-3" onclick="showEditBookNameDialog();"><span class="ui-icon ui-icon-tag"></span>書名</a></li>
+                <li><a href="#tabs-1" onclick="flipIntro();">故事大綱</a></li>
+                <li><a href="#tabs3" onclick="flipCharacters();">角色設定</a></li>
+                <li><a href="#tabs-3">故事編輯</a></li>
+            </ul>
+
         </div>
         <div id="content">
             <div id="tree">
-                <table style="width: 100%;">
+                <!--table style="width: 100%;">
                     <tr>
                         <td onclick="flipIntro();">故事大綱</td>
                     </tr>
@@ -56,10 +67,10 @@
                     <tr v-for="(page, index) in pages">
                         <td v-on:click="select(index+1)">第{{index+1}}頁</td>
                     </tr>
-                </table>
+                </table-->
             </div>
             <div id="editorContainer">
-                <!--div id="editorjs"></div-->
+               
             </div>
         </div>
 
@@ -111,6 +122,7 @@
         }
 
         function flipIntro() {
+            $( ".tabs" ).tabs( "option", "active", 1 );
             showEditorJSUI(data.summary, TOOL_SET.INTRO);
 
         }
