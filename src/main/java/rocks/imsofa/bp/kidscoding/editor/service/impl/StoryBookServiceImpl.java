@@ -30,7 +30,7 @@ public class StoryBookServiceImpl implements StoryBookService {
     }
 
     @Override
-    public StoryBook getStoryBook(int id) {
+    public StoryBook getStoryBook(String id) {
         SqlRowSet rs = jdbcTemplate.queryForRowSet("select storymeta.*, users.*, storycontent.* from storymeta left join users on storymeta.author=users.id, storycontent where storymeta.id=storycontent.story and storymeta.id=? order by page", id);
         //SqlRowSet rs=jdbcTemplate.queryForRowSet("select story.*, users.*,characters.content as cs, storycontent.* from story left join users on story.author=users.id left join characters on characters.story=story.id, storycontent where story.id=storycontent.story and story.id=1 order by page");
         if (rs.next()) {

@@ -34,7 +34,7 @@ public class StoryBookWS {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public StoryBook getStoryBook(@PathParam("id") int id){
+    public StoryBook getStoryBook(@PathParam("id") String id){
         return storyBookService.getStoryBook(id);
     }
     
