@@ -101,6 +101,7 @@ public class LoginFilter implements Filter {
                         && req.getRequestURI().endsWith("post_register")==false
                         && req.getRequestURI().endsWith("register.jsp")==false
                         && req.getRequestURI().endsWith("logout.jsp")==false){
+                    session.setAttribute("original_target", req.getRequestURL().toString());
                     resp.sendRedirect(req.getServletContext().getContextPath()+"/login.jsp");
                     return;
                 }

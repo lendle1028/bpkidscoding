@@ -56,4 +56,10 @@ public class StoryBookMetaWS {
     public List<StoryBookMeta> findByKeywords(@PathParam("word") String keyword, @QueryParam("pageSize") @DefaultValue("100") int pageSize, @QueryParam("pageIndex") @DefaultValue("0") int pageIndex) {
         return storyBookMetaService.findByKeywords(keyword, pageSize, pageIndex);
     } 
+    
+    @GET
+    @Path("count")
+    public int count(){
+        return storyBookMetaService.count();
+    }
 }

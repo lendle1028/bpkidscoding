@@ -68,5 +68,10 @@ public class StoryBookMetaServiceImpl implements StoryBookMetaService{
         return jdbcTemplate.query("select * from storymeta where title like ? or summary like ? or characters like ? order by title limit ?,?", new StoryBookMetaRowMapper(),
                 "%"+keywords+"%", "%"+keywords+"%", "%"+keywords+"%", pageSize*pageIndex, pageSize);
     }
+
+    @Override
+    public int count() {
+        return jdbcTemplate.queryForObject("select count(*) from storymeta", int.class);
+    }
     
 }

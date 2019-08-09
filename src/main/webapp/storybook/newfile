@@ -1,0 +1,45 @@
+<%-- 
+    Document   : index
+    Created on : Aug 9, 2019, 9:48:26 AM
+    Author     : lendle
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+        <link href="index.css" rel="stylesheet" type="text/css"/>
+        <script src="index.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <form class="searchForm" method="get" action="">              
+            <input class="searchTerm"  placeholder="Search…" autocomplete="off"/>
+            <input type="submit" class="searchBtn" value="GO"/>
+            <input type="submit" class="searchBtn" value="By Author"/>
+            <!--ul class="suggestionBox" style="">
+                <li><b>a</b>pple</li>
+                <li><b>a</b>ndroid</li>
+                <li><b>a</b>mazon</li>
+                <li><b>a</b>ol</li>
+                <li><b>a</b>tlanta</li>
+            </ul-->
+        </form>
+        <hr/>
+        <ul>
+            <li>1</li>
+            <li>1</li>
+            <li>1</li>
+            <li>1</li>
+            <li>1</li>
+            <li>1</li>
+            <li>1</li>
+        </ul>
+    </body>
+</html>
+

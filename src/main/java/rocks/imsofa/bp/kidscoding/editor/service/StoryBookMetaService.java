@@ -13,6 +13,7 @@ import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta;
  * @author lendle
  */
 public interface StoryBookMetaService {
+    public int count();
     public List<StoryBookMeta> findAll();
     public List<StoryBookMeta> findAll(int pageSize, int pageIndex);
     public StoryBookMeta findById(String id);
