@@ -91,18 +91,19 @@ public class GenerateSampleStoryBook extends HttpServlet {
 
         String [] characters=new String[]{character1, character2};
         
-        meta.setCharacters("{\"time\": "+System.currentTimeMillis()+", \"version\": \"2.15.0\", \"blocks\": ["+
+        meta.setCharacters(new Gson().fromJson("{\"time\": "+System.currentTimeMillis()+", \"version\": \"2.15.0\", \"blocks\": ["+
                 this.generateCharacterQuoteBlock(character1, this.generateParagraph(20))+", "+
-                this.generateCharacterQuoteBlock(character2, this.generateParagraph(20))+"]}");
+                this.generateCharacterQuoteBlock(character2, this.generateParagraph(20))+"]}", Map.class));
         book.setMeta(meta);
         
-        List<String> contents=new ArrayList<>();
+        List<Map> contents=new ArrayList<>();
+        Gson gson=new Gson();
         for(int i=0; i<10; i++){
-            contents.add("{ \"time\": "+System.currentTimeMillis()+
+            contents.add(gson.fromJson("{ \"time\": "+System.currentTimeMillis()+
                     ", \"blocks\": ["+this.generateCharacterQuoteBlock(character1, this.generateParagraph(20))+", { \"type\": \"os\", \"data\": { \"message\": \""+
                     this.generateParagraph(10)+"\" } }, { \"type\": \"separator\", \"data\": {} }, "+
                     this.generateCharacterQuoteBlock(character2, this.generateParagraph(20))+"], "
-                    + "\"version\": \"2.15.0\" }");
+                    + "\"version\": \"2.15.0\" }", Map.class));
         }
         book.setPageContents(contents);
         storyBookService.addStoryBook(book);

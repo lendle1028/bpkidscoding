@@ -5,6 +5,8 @@
  */
 package rocks.imsofa.bp.kidscoding.editor.model;
 
+import java.util.Map;
+
 /**
  *
  * @author lendle
@@ -15,7 +17,7 @@ public class StoryBookMeta {
     private String createdDate;
     private String lastEditedDate;
     private String summary;
-    private String characters;
+    private Map characters;
     private String id;
 
     public String getTitle() {
@@ -58,11 +60,11 @@ public class StoryBookMeta {
         this.summary = summary;
     }
 
-    public String getCharacters() {
+    public Map getCharacters() {
         return characters;
     }
 
-    public void setCharacters(String characters) {
+    public void setCharacters(Map characters) {
         this.characters = characters;
     }
 

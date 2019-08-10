@@ -7,21 +7,22 @@ package rocks.imsofa.bp.kidscoding.editor.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author lendle
  */
 public class StoryBook {
-    private List<String> pageContents=new ArrayList<>();
+    private List<Map> pageContents=new ArrayList<>();
     private String id;
     private StoryBookMeta meta=null;
 
-    public List<String> getPageContents() {
+    public List<Map> getPageContents() {
         return pageContents;
     }
 
-    public void setPageContents(List<String> pageContents) {
+    public void setPageContents(List<Map> pageContents) {
         this.pageContents = pageContents;
     }
 

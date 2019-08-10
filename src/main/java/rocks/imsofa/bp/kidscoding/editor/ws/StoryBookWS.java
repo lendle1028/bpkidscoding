@@ -35,6 +35,7 @@ public class StoryBookWS {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public StoryBook getStoryBook(@PathParam("id") String id){
+        System.out.println("id="+id);
         return storyBookService.getStoryBook(id);
     }
     

@@ -5,6 +5,8 @@
  */
 package rocks.imsofa.bp.kidscoding.editor.service.impl;
 
+import com.google.gson.Gson;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,15 +41,16 @@ public class StoryBookServiceImpl implements StoryBookService {
             storyBook.setId(rs.getString("id"));
             meta.setId(rs.getString("id"));
             meta.setAuthor(rs.getInt("author"));
-            meta.setCharacters(rs.getString("characters"));
+            meta.setCharacters(new Gson().fromJson(rs.getString("characters"), Map.class));
             meta.setCreatedDate(rs.getString("CREATED_DATE"));//
             meta.setLastEditedDate(rs.getString("last_edited_date"));
             meta.setSummary(rs.getString("summary"));
             meta.setTitle(rs.getString("title"));
             storyBook.setMeta(meta);
-            storyBook.getPageContents().add(rs.getString("content"));
+            Gson gson=new Gson();
+            storyBook.getPageContents().add(gson.fromJson(rs.getString("content"), Map.class));
             while (rs.next()) {
-                storyBook.getPageContents().add(rs.getString("content"));
+                storyBook.getPageContents().add(gson.fromJson(rs.getString("content"), Map.class));
             }
             return storyBook;
         }
@@ -67,11 +70,12 @@ public class StoryBookServiceImpl implements StoryBookService {
                 meta.getId(), meta.getAuthor(), meta.getCreatedDate(), meta.getLastEditedDate(),
                 meta.getTitle(), meta.getSummary());
         jdbcTemplate.update("insert into characters (story, content) values (?, ?)",
-                storyBook.getId(), meta.getCharacters());
+                storyBook.getId(), new Gson().toJson(meta.getCharacters()));
         int pageNumber = 0;
-        for (String content : storyBook.getPageContents()) {
+        Gson gson=new Gson();
+        for (Map content : storyBook.getPageContents()) {
             jdbcTemplate.update("insert into storycontent (story, page, content) values (?,?,?)",
-                    storyBook.getId(), pageNumber++, content);
+                    storyBook.getId(), pageNumber++, gson.toJson(content));
         }
         return storyBook;
     }

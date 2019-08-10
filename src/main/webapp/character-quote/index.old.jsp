@@ -24,6 +24,7 @@
     <link href="main.css" rel="stylesheet" />
     <link href="https://code.jquery.com/ui/1.12.1/themes/le-frog/jquery-ui.css" rel="stylesheet" />
     <script src="../js/StoryMetaJS.js" type="text/javascript"></script>
+    <script src="../js/StoryBookJS.js" type="text/javascript"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" /-->
 </head>
@@ -169,8 +170,22 @@
                 "data": data
             });
         }
-
-        let data = {
+        
+        let url=window.location.href;
+        let index=url.lastIndexOf("/");
+        let ws2=new StoryBookJS(url.substring(0, index)+"/..");
+        let data=null;
+        ws2.getStoryBook("0685455b-f62a-4367-8560-afaf47444dde").then((book)=>{
+            console.log(book);
+            data = {
+                title: book.meta.title,
+                summary: { "time": 1563781369246, "blocks": [{ "type": "os", "data": { "message": book.meta.summary } }], "version": "2.15.0" },
+                characters: book.meta.characters,
+                data: book.pageContents
+            };
+        });
+        
+        /*let data = {
             title: "Book1",
             summary: { "time": 1563781369246, "blocks": [{ "type": "os", "data": { "message": "簡介" } }], "version": "2.15.0" },
             characters: { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "111" } }], "version": "2.15.0" },
@@ -179,7 +194,7 @@
                 { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "112" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" },
                 { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "113" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" }
             ]
-        };
+        };*/
 
         function save() {
             editor.save().then(savedData => {
