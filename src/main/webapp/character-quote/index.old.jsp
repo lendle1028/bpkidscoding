@@ -175,14 +175,8 @@
         let index=url.lastIndexOf("/");
         let ws2=new StoryBookJS(url.substring(0, index)+"/..");
         let data=null;
-        ws2.getStoryBook("0685455b-f62a-4367-8560-afaf47444dde").then((book)=>{
-            console.log(book);
-            data = {
-                title: book.meta.title,
-                summary: { "time": 1563781369246, "blocks": [{ "type": "os", "data": { "message": book.meta.summary } }], "version": "2.15.0" },
-                characters: book.meta.characters,
-                data: book.pageContents
-            };
+        ws2.getStoryBook("<%=request.getParameter("id")%>").then((book)=>{
+            data = book;
         });
         
         /*let data = {

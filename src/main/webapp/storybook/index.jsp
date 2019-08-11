@@ -29,28 +29,57 @@
         <div id="search-result-container">
             <div class="search-result" v-for="result in results">
                 <div class="content">
-                    <h3><a href="/viewjob/1234">{{result.title}}</a></h3>
+                    <h3><a v-bind:href="'../character-quote/index.old.jsp?id='+result.id">{{result.title}}</a></h3>
                     <div>
                         <p>{{result.summary}}</p>
                     </div>
                 </div>
             </div>
         </div>
+        <br/>
+        <center>
+            <div class="pagination" id="pagination">
+                <a href="#">&laquo;</a>
+                <a v-for="p in pagingData" v-bind:href="'index.jsp?page='+p.index">{{p.index+1}}</a>
+                <a href="#">&raquo;</a>
+              </div>
+        </center>
        
         <script>
             var vue=null;
+            var vue_paging=null;
             $(document).ready(function(){
                 let url=window.location.href;
                 let index=url.lastIndexOf("/storybook");
                 let ws=new StoryMetaJS(url.substring(0, index));
                 ws.findAll(10, 0).then((data)=>{
-                    var vue = new Vue({
+                    vue = new Vue({
                         el: '#search-result-container',
                         data: {
                           "results": data
                         }
                       });
                 });
+
+                (async function(){
+                    let cnt=await ws.count();
+                    let pageCount=Math.ceil(cnt/10);
+                    let remaining=cnt%10;
+                    let pagingData=[];
+                    console.log(cnt);
+                    for(let i=0; i<pageCount; i++){
+                        pagingData.push({
+                            index: i
+                        });
+                    }
+                    vue_paging=new Vue({
+                        el: "#pagination",
+                        data: {
+                            "pagingData": pagingData
+                        }
+                    });
+                    console.log(vue_paging.pagingData);
+                })();
             });
         </script>
     </body>
