@@ -1,0 +1,213 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="quote.js"></script>
+    <script src="separator.js"></script>
+    <script src="os.js"></script>
+    <script src="EditorDataProcessor.js"></script>
+    <link href="quote.css" rel="stylesheet" />
+    <link href="separator.css" rel="stylesheet" />
+    <link href="os.css" rel="stylesheet" />
+    <link href="main.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm bg-info navbar-light">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="title" class="navbar-brand" onclick="showEditBookNameDialog();">書名</a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a onclick="flipIntro();"><span
+                                    class="glyphicon glyphicon-book"></span>&nbsp;故事大綱</a></li>
+                        <li><a onclick="flipCharacters();"><span
+                                    class="glyphicon glyphicon-bookmark"></span>&nbsp;角色設定</a></li>
+                        <li><a href="#storyContainer"><span class="glyphicon glyphicon-pencil"></span>&nbsp;故事編輯</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a onclick="save();"><span class="glyphicon glyphicon-floppy-saved"></span> Save</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div id="editBookNameDialog" style="display: none">
+        書名&nbsp;&nbsp;<input type="text" id="editBookNameDialog_name" />
+    </div>
+    <div class="row">
+        <div id="editorContainer">
+
+        </div>
+
+
+        <div id="storyContainer">
+            <div class="col-sm-3 bg-success">
+                1111111
+            </div>
+            <div class="col-sm-9 bg-warning">
+                111
+            </div>
+        </div>
+    </div>
+    <script>
+        var currentData = null;
+        var currentEditor = null;
+        var TOOL_SET = {
+            INTRO: {
+                os: Os
+            },
+            CHARACTERS: {
+                characterQuote: Quote
+            },
+            PAGE: {
+                characterQuote: Quote,
+                separator: Separator,
+                os: Os
+            }
+        };
+        var currentEditorType = null;
+        var currentPage = -1;
+        function showEditBookNameDialog() {
+            $("#editBookNameDialog_name").val(data.title);
+            $("#editBookNameDialog").dialog({
+                modal: true,
+                buttons: [{
+                    text: "Ok",
+                    icon: "ui-icon-check",
+                    click: function () {
+                        data.title = $("#editBookNameDialog_name").val();
+                        $("#title").text(data.title);
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: "Cancel",
+                    icon: "ui-icon-close",
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }]
+            });
+        }
+
+        function flipIntro() {
+            $(".tabs").tabs("option", "active", 1);
+            showEditorJSUI(data.summary, TOOL_SET.INTRO);
+
+        }
+
+        function flipCharacters() {
+            showEditorJSUI(data.characters, TOOL_SET.CHARACTERS);
+        }
+
+        function flip(index) {
+            currentPage = index;
+            $("#page").html("第" + (index + 1) + "頁");
+            showEditorJSUI(data.data[index], TOOL_SET.PAGE);
+        }
+
+        function showEditorJSUI(data, toolset = TOOL_SET.PAGE) {
+            //first, check if there is any modification
+            if (currentEditor) {
+                currentEditor.save().then(savedData => {
+                    if (currentData != null) {
+                        let modified = EditorDataProcessor.isModified(savedData, currentData);
+                        if (modified) {
+                            let save = window.confirm("是否儲存?");
+                            //todo: 儲存
+                            if (save) {
+                                if (currentEditorType == "page") {
+                                    data.data[currentPage] = savedData;
+                                } else if (currentEditorType == "summary") {
+                                    data.summary = savedData;
+                                    console.log(data);
+                                } else {
+                                    data.characters = savedData;
+                                }
+                            }
+                        }
+                        //then, load the editor
+                        _showEditorJSUI(data, toolset);
+                    }
+                });
+            } else {
+                _showEditorJSUI(data, toolset);
+            }
+        }
+        /**
+         * an internal function to load editorjs
+         */
+        function _showEditorJSUI(data, toolset) {
+            if (toolset == TOOL_SET.PAGE) {
+                currentEditorType = "page";
+            } else if (toolset == TOOL_SET.CHARACTERS) {
+                currentEditorType = "characters";
+            } else {
+                currentEditorType = "summary";
+            }
+            currentData = data;
+            $("#editorContainer").empty();
+            let editorUI = document.createElement("div");
+            $(editorUI).attr("id", "editorjs");
+            $("#editorContainer").append($(editorUI));
+            currentEditor = new EditorJS({
+                holder: 'editorjs',
+                autofocus: true,
+                tools: toolset,
+                "data": data
+            });
+        }
+
+        var data = {
+            title: "Book1",
+            summary: { "time": 1563781369246, "blocks": [{ "type": "os", "data": { "message": "簡介" } }], "version": "2.15.0" },
+            characters: { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "111" } }], "version": "2.15.0" },
+            data: [
+                { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "111" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" },
+                { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "112" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" },
+                { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "113" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" },
+                { "time": 1563781369246, "blocks": [], "version": "2.15.0" }
+            ]
+        };
+
+        new Vue({
+            el: "#tree",
+            data: {
+                pages: data.data
+            },
+            methods: {
+                select: function (index) {
+                    console.log(index);
+                    flip(index);
+                }
+            }
+        });
+
+        function save() {
+            editor.save().then(savedData => {
+                console.log(JSON.stringify(savedData));
+            });
+        }
+    </script>
+</body>
+
+</html>
