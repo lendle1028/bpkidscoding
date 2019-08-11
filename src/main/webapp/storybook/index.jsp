@@ -40,7 +40,10 @@
         <center>
             <div class="pagination" id="pagination">
                 <a href="#">&laquo;</a>
-                <a v-for="p in pagingData" v-bind:href="'index.jsp?page='+p.index">{{p.index+1}}</a>
+                <span v-for="p in pagingData">
+                    <a v-if="p.current!=true" v-bind:href="'index.jsp?page='+p.index">{{p.index+1}}</a>
+                    <span v-else>{{p.index+1}}</span>
+                </span>
                 <a href="#">&raquo;</a>
               </div>
         </center>
@@ -48,6 +51,7 @@
         <script>
             var vue=null;
             var vue_paging=null;
+            var currentPage=<%=(request.getParameter("page")!=null)?(request.getParameter("page")):"0"%>
             $(document).ready(function(){
                 let url=window.location.href;
                 let index=url.lastIndexOf("/storybook");
@@ -69,7 +73,8 @@
                     console.log(cnt);
                     for(let i=0; i<pageCount; i++){
                         pagingData.push({
-                            index: i
+                            index: i,
+                            current: (i==currentPage)
                         });
                     }
                     vue_paging=new Vue({
