@@ -8,10 +8,24 @@ class StoryMetaJS{
     constructor(root){
         this.rootURL=root+"/webapi";
     }
+
+    static get ALL(){
+        return 0;
+    }
+
+    static get BY_AUTHOR(){
+        return 1;
+    }
+
+    static get BY_KEYWORD(){
+        return 2;
+    }
     
     count(){
         return this.query(this.rootURL+"/meta/count");
     }
+
+
     
     findAll(pageSize=100, pageIndex=0){
         return this.query(this.rootURL+"/meta?pageSize="+pageSize+"&pageIndex="+pageIndex);
