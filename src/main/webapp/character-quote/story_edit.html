@@ -13,60 +13,57 @@
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm bg-info navbar-light">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a id="title" class="navbar-brand" onclick="showEditBookNameDialog();">書名</a>
-                </div>
-                <div class="collapse navbar-collapse" id="myNavbar">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a onclick="flipIntro();"><span
-                                    class="glyphicon glyphicon-book"></span>&nbsp;故事大綱</a></li>
-                        <li><a onclick="flipCharacters();"><span
-                                    class="glyphicon glyphicon-bookmark"></span>&nbsp;角色設定</a></li>
-                        <li><a href="#storyContainer"><span class="glyphicon glyphicon-pencil"></span>&nbsp;故事編輯</a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a onclick="save();"><span class="glyphicon glyphicon-floppy-saved"></span> Save</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    </ul>
-                </div>
-            </div>
+    <div class="container-fluid">
+
+        <nav class="navbar navbar-expand-sm bg-info navbar-dark">
+            <a id="title" class="navbar-brand text-warning" onclick="showEditBookNameDialog();">BOOK-NAME</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="flipIntro();" id="linkStoryOutline">
+                        <span class="fa fa-pencil-square-o"></span>&nbsp;故事大綱</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="flipCharacters();">
+                        <span class="fa fa-user-circle-o"></span>&nbsp;角色設定</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#storyContainer"><span class="fa fa-comments-o"></span>&nbsp;故事編輯</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" onclick="save();"><span class="fa fa-floppy-o"></span> Save</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#"><span class="fa fa-sign-out"></span> Sign Up</a></li>
+            </ul>
         </nav>
-    </header>
+
+        <div id="editorContainer" class="row">
+
+        </div>
+
+
+        <div id="storyContainer" class="row">
+            <div class="col-3 bg-success">
+
+            </div>
+            <div class="col-9 bg-warning">
+
+            </div>
+        </div>
+    </div>
     <div id="editBookNameDialog" style="display: none">
         書名&nbsp;&nbsp;<input type="text" id="editBookNameDialog_name" />
-    </div>
-    <div class="row">
-        <div id="editorContainer">
-
-        </div>
-
-
-        <div id="storyContainer">
-            <div class="col-sm-3 bg-success">
-                1111111
-            </div>
-            <div class="col-sm-9 bg-warning">
-                111
-            </div>
-        </div>
     </div>
     <script>
         var currentData = null;
@@ -110,9 +107,7 @@
         }
 
         function flipIntro() {
-            $(".tabs").tabs("option", "active", 1);
             showEditorJSUI(data.summary, TOOL_SET.INTRO);
-
         }
 
         function flipCharacters() {
@@ -171,7 +166,6 @@
             $("#editorContainer").append($(editorUI));
             currentEditor = new EditorJS({
                 holder: 'editorjs',
-                autofocus: true,
                 tools: toolset,
                 "data": data
             });
@@ -207,6 +201,10 @@
                 console.log(JSON.stringify(savedData));
             });
         }
+
+        $(document).ready(function () {
+            $("#linkStoryOutline").click();
+        });
     </script>
 </body>
 
