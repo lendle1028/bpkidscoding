@@ -41,8 +41,9 @@
             <div class="pagination" id="pagination">
                 <a href="#">&laquo;</a>
                 <span v-for="p in pagingData">
-                    <a v-if="p.current!=true" v-bind:href="'index.jsp?page='+p.index">{{p.index+1}}</a>
-                    <span v-else>{{p.index+1}}</span>
+                    <span v-if="p.enabled==false">...</span>
+                    <a v-if="p.enabled==true && p.current!=true" v-bind:href="'index.jsp?page='+p.index">{{p.index+1}}</a>
+                    <span v-if="p.enabled==true && p.current==true">{{p.index+1}}</span>
                 </span>
                 <a href="#">&raquo;</a>
               </div>
@@ -51,7 +52,9 @@
         <script>
             var vue=null;
             var vue_paging=null;
-            var currentPage=<%=(request.getParameter("page")!=null)?(request.getParameter("page")):"0"%>
+            var currentPage=<%=(request.getParameter("page")!=null)?(request.getParameter("page")):"0"%>;
+            var currentSearch="findAll";
+
             $(document).ready(function(){
                 let url=window.location.href;
                 let index=url.lastIndexOf("/storybook");
@@ -70,17 +73,41 @@
                     let pageCount=Math.ceil(cnt/10);
                     let remaining=cnt%10;
                     let pagingData=[];
-                    console.log(cnt);
-                    for(let i=0; i<pageCount; i++){
+                    
+                    let startVisiblePageIndex=(currentPage>3)?(currentPage-3):0;
+                    let lastVisiblePageIndex=((currentPage+3)<pageCount)?(currentPage+3):pageCount-1;
+                    if(startVisiblePageIndex!=0){
+                        //not start from 0
+                        pagingData.push({
+                            index: -1,
+                            current: false,
+                            enabled: false
+                        });
+                    }
+                    for(let i=startVisiblePageIndex; i<=lastVisiblePageIndex; i++){
                         pagingData.push({
                             index: i,
-                            current: (i==currentPage)
+                            current: (i==currentPage),
+                            enabled: true
+                        });
+                    }
+                    if(lastVisiblePageIndex!=pageCount-1){
+                        //not end at the last page
+                        pagingData.push({
+                            index: -1,
+                            current: false,
+                            enabled: false
                         });
                     }
                     vue_paging=new Vue({
                         el: "#pagination",
                         data: {
                             "pagingData": pagingData
+                        },
+                        methods: {
+                            "gotoPage": function(page){
+
+                            }
                         }
                     });
                     console.log(vue_paging.pagingData);
