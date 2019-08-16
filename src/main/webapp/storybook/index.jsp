@@ -39,13 +39,19 @@
     <br />
     <center>
         <div class="pagination" id="pagination">
-            <a href="#">&laquo;</a>
+            <span v-if="currentPage == 0">
+                &laquo;
+            </span>
+            <a v-else href="#" v-on:click="gotoPage(currentPage-1);">&laquo;</a>
             <span v-for="p in pagingData">
                 <span v-if="p.enabled==false">...</span>
                 <a v-if="p.enabled==true && p.current!=true" v-on:click="gotoPage(p.index);" href="#">{{p.index+1}}</a>
                 <span v-if="p.enabled==true && p.current==true">{{p.index+1}}</span>
             </span>
-            <a href="#">&raquo;</a>
+            <span v-if="currentPage == pageCount-1">
+                &raquo;
+            </span>
+            <a v-else href="#" v-on:click="gotoPage(currentPage+1);">&raquo;</a>
         </div>
     </center>
 
@@ -56,6 +62,7 @@
         var currentSearchType = StoryMetaJS.ALL;
         var currentSearchArg = null;
         var count=-1;
+        var pageCount=0;
 
         function searchByKeyword(){
             count=-1;
@@ -104,10 +111,10 @@
             }
 
             currentPage = pageIndex;
+            //console.log(currentPage);
 
             let cnt = count;
-            console.log(count);
-            let pageCount = Math.ceil(cnt / 10);
+            pageCount = Math.ceil(cnt / 10);
             let remaining = cnt % 10;
             let pagingData = [];
 
@@ -153,7 +160,7 @@
                 vue_paging.pagingData = pagingData;
             }
 
-            console.log(vue_paging.pagingData);
+            //console.log(vue_paging.pagingData);
 
         }
 
