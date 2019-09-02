@@ -1,0 +1,7 @@
+.os{
+    width: 100%;
+    background: none; 
+    box-shadow:7px 7px 5px 0 #b3ccff;
+    background-image: url('tree.png');
+    background-size:cover;
+}

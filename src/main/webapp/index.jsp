@@ -16,7 +16,7 @@
         <h1>歡迎光臨，<%=session.getAttribute("login")%></h1>
         <ul>
             <li>
-                <a href="character-quote/index.html">Kids Coding 繪本故事編輯器</a>
+                <a href="storybook/index.jsp">Kids Coding 繪本故事編輯器</a>
             </li>
         </ul>
         <script>
