@@ -132,31 +132,6 @@
                     "data": data
                 }
             });
-            /*if (currentEditor) {
-                currentEditor.save().then(savedData => {
-                    if (currentData != null) {
-                        let modified = EditorDataProcessor.isModified(savedData, currentData);
-                        if (modified) {
-                            let save = window.confirm("是否儲存?");
-                            //todo: 儲存
-                            if (save) {
-                                if (currentEditorType == "page") {
-                                    data.data[currentPage] = savedData;
-                                } else if (currentEditorType == "summary") {
-                                    data.summary = savedData;
-                                    
-                                } else {
-                                    data.characters = savedData;
-                                }
-                            }
-                        }
-                        //then, load the editor
-                        _showEditorJSUI(data, toolset);
-                    }
-                });
-            } else {
-                _showEditorJSUI(data, toolset);
-            }*/
         }
         /**
          * an internal function to load editorjs
@@ -190,16 +165,6 @@
             data = book;
         });
         
-        // data = {
-        //     title: "Book1",
-        //     summary: { "time": 1563781369246, "blocks": [{ "type": "os", "data": { "message": "簡介" } }], "version": "2.15.0" },
-        //     characters: { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "111" } }], "version": "2.15.0" },
-        //     data: [
-        //         { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "111" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" },
-        //         { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "112" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" },
-        //         { "time": 1563781369246, "blocks": [{ "type": "characterQuote", "data": { "character": "test2", "message": "113" } }, { "type": "os", "data": { "message": "12121" } }, { "type": "separator", "data": {} }], "version": "2.15.0" }
-        //     ]
-        // };
 
         function save() {
             editor.save().then(savedData => {
