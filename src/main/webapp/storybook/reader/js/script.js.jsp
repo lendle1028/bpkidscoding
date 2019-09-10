@@ -5,7 +5,8 @@
 "use strict";
 <%
     StoryBookService storyBookService=RequestContextUtils.findWebApplicationContext(request).getBean(StoryBookService.class);
-    StoryBook storyBook=storyBookService.getStoryBook("xxx");
+    StoryBook storyBook=storyBookService.getStoryBook("0004e961-bf1a-4519-b2e2-952e63a83f6b");
+    out.println("//"+storyBook);
 %>
 
 /* exported messages */
