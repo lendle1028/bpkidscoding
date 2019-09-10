@@ -1,7 +1,11 @@
+<%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBook"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.service.StoryBookService"%>
 <%@page contentType="text/javascript" pageEncoding="UTF-8"%>
+<%@page import="org.springframework.web.servlet.support.*" %>
 "use strict";
 <%
-    RequestContextUtils a=null;
+    StoryBookService storyBookService=RequestContextUtils.findWebApplicationContext(request).getBean(StoryBookService.class);
+    StoryBook storyBook=storyBookService.getStoryBook("xxx");
 %>
 
 /* exported messages */
