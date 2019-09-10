@@ -2,11 +2,12 @@
 <%@page import="rocks.imsofa.bp.kidscoding.editor.service.StoryBookService"%>
 <%@page contentType="text/javascript" pageEncoding="UTF-8"%>
 <%@page import="org.springframework.web.servlet.support.*" %>
+<%@page import="java.util.*, com.google.gson.*" %>
 "use strict";
 <%
     StoryBookService storyBookService=RequestContextUtils.findWebApplicationContext(request).getBean(StoryBookService.class);
-    StoryBook storyBook=storyBookService.getStoryBook("0004e961-bf1a-4519-b2e2-952e63a83f6b");
-    out.println("//"+storyBook);
+    StoryBook storyBook=storyBookService.getStoryBook("1");
+    Gson gson=new Gson();
 %>
 
 /* exported messages */
@@ -99,6 +100,14 @@ let script = {
 	// The game starts here.
 	"Start": [
 		"scene url('https://dubaitravelblog.com/wp-content/uploads/2019/04/coca-cola-arena-citywalk-dubai.jpg')",
+                <%
+                    List<Map> pageContents=storyBook.getPageContents();
+                    for(int i=0; i<pageContents.size(); i++){
+                        Map pageContent=pageContents.get(i);
+                        out.println(pageContent.get("blocks"));
+                        List<Map> blocks=gson.fromJson(pageContent.get("blocks"), List.class);
+                    }
+                %>
 		"notify Welcome",
 		"show h Normal center",
 		{
