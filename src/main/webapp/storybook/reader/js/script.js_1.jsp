@@ -96,37 +96,22 @@ const characters = {
 	}
 };
 
-<%
-    String [] scenes=new String[]{
-        "https://dubaitravelblog.com/wp-content/uploads/2019/04/coca-cola-arena-citywalk-dubai.jpg",
-        "http://www.teachhub.com/sites/default/files/field/image/classroom-management-effective-learning-environment.jpg"
-    };
-%>
-
 let script = {
 	// The game starts here.
 	"Start": [
-                "notify Welcome",
+		"scene url('https://dubaitravelblog.com/wp-content/uploads/2019/04/coca-cola-arena-citywalk-dubai.jpg')",
                 <%
                     List<Map> pageContents=storyBook.getPageContents();
                     for(int i=0; i<pageContents.size(); i++){
-                        out.println("\"scene url(\'"+scenes[i%2]+"\')\",");
                         Map pageContent=pageContents.get(i);
                         List blocks=gson.fromJson(""+pageContent.get("blocks"), List.class);
                         for(int j=0; j<blocks.size(); j++){
                             System.out.println(blocks.get(j));
-                            Map pageJson=gson.fromJson(""+blocks.get(j), Map.class);
-                            if("characterQuote".equals(pageJson.get("type"))){
-                                Map data=(Map)pageJson.get("data");
-                                //out.println("\"show "+data.get("character")+" "+data.get("message")+"\",");
-                                out.println("\"show "+data.get("character")+" Normal center\",");
-                                out.println("\"test2 "+data.get("message")+"\",");
-                                out.println("\""+data.get("message")+"\",");
-                            }
                         }
                         System.out.println("=====================");
                     }
                 %>
+		"notify Welcome",
 		"show h Normal center",
 		{
 			"Input": {
