@@ -86,15 +86,13 @@ public class ReadableStoryBookMeta {
             if(name==null){
                 //looking for narrats
                 if(spec.isNarrat() && 
-                   (spec.getPage()==-1 || spec.getPage()==page) &&
-                   (spec.getIndex()==-1 || spec.getIndex()==index)){
+                   (spec.getPage()==-1 || spec.getPage()==page) ){
                     applicable.add(spec);
                 }
             }else{
                 //looking for characters
                 if(name.equals(spec.getName()) && 
-                   (spec.getPage()==-1 || spec.getPage()==page) &&
-                   (spec.getIndex()==-1 || spec.getIndex()==index)){
+                   (spec.getPage()==-1 || spec.getPage()==page) ){
                     applicable.add(spec);
                 }
             }
@@ -102,20 +100,18 @@ public class ReadableStoryBookMeta {
         Collections.sort(applicable, new Comparator<CharacterSpec>() {
             @Override
             public int compare(CharacterSpec o1, CharacterSpec o2) {
-                return calculateFitScore(o2, page, index)-calculateFitScore(o1, page, index);
+                return calculateFitScore(o2, page)-calculateFitScore(o1, page);
             }
         });
         return applicable.isEmpty()?null:applicable.get(0);
     }
     
-    private int calculateFitScore(CharacterSpec spec, int page, int index){
+    private int calculateFitScore(CharacterSpec spec, int page){
         int score=0;
         if(spec.getPage()==page){
             score+=1;
         }
-        if(spec.getIndex()==index){
-            score+=1;
-        }
+        
         return score;
     }
 }

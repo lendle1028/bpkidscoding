@@ -14,7 +14,6 @@ public class CharacterSpec {
     private String name = null; //for narrats, set this to null
     private boolean narrat = false;
     private int page = -1;
-    private int index = -1;
     private String imageURL = null;
 
     public String getName() {
@@ -39,14 +38,6 @@ public class CharacterSpec {
 
     public void setPage(int page) {
         this.page = page;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public String getImageURL() {
