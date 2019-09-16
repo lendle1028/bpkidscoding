@@ -1,3 +1,5 @@
+<%@page import="rocks.imsofa.bp.kidscoding.editor.model.ReadableStoryBookMeta"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.service.ReadableStoryBookMetaService"%>
 <%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBook"%>
 <%@page import="rocks.imsofa.bp.kidscoding.editor.service.StoryBookService"%>
 <%@page contentType="text/javascript" pageEncoding="UTF-8"%>
@@ -5,6 +7,7 @@
 <%@page import="java.util.*, com.google.gson.*" %>
 "use strict";
 <%
+    ReadableStoryBookMetaService readableStoryBookMetaService=RequestContextUtils.findWebApplicationContext(request).getBean(ReadableStoryBookMetaService.class);
     StoryBookService storyBookService=RequestContextUtils.findWebApplicationContext(request).getBean(StoryBookService.class);
     StoryBook storyBook=storyBookService.getStoryBook("1");
     Gson gson=new Gson();
@@ -78,12 +81,17 @@ const scenes = {
 
 // Define the Characters
 const characters = {
+        <%
+            List<ReadableStoryBookMeta> metas=readableStoryBookMetaService.findByStoryBookId("1");
+            Map<String, Map> characterImageMap=new HashMap<>();
+            
+        %>
 	"h": {
 		"Name": "Hikaru",
 		"Color": "#5bcaff",
 		"Directory": "temp/12345",
 		"Images":{ // Images Identifier for the "Show" statement.
-            "Normal": "21-eevee-day-01.jpg"
+                    "Normal": "21-eevee-day-01.jpg"
 		}
 	},
 	"test2": {
@@ -91,7 +99,7 @@ const characters = {
 		"Color": "blue",
 		"Directory": "temp/12345",
 		"Images":{ // Images Identifier for the "Show" statement.
-            "Normal": "98f1f86c-29f1-4a12-8ebc-5b13f2c51eb0_1.31d679aeaecb5d4115e447a470bb84e4.jpeg"
+                    "Normal": "98f1f86c-29f1-4a12-8ebc-5b13f2c51eb0_1.31d679aeaecb5d4115e447a470bb84e4.jpeg"
 		}
 	}
 };
