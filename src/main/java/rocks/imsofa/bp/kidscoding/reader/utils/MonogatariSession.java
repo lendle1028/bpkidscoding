@@ -5,6 +5,7 @@
  */
 package rocks.imsofa.bp.kidscoding.reader.utils;
 
+import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,6 +24,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import rocks.imsofa.bp.kidscoding.editor.model.CharacterSpec;
 import rocks.imsofa.bp.kidscoding.editor.model.ReadableStoryBookMeta;
@@ -43,35 +45,6 @@ public class MonogatariSession {
     private String[] colors = new String[]{"#0000ff", "#cc66ff", "#ff0066", "#000066", "#009900", "#cc3300"};
     private List<String> commands = new ArrayList<>();
     private StoryBook storyBook = null;
-
-    static {
-        final TrustManager[] trustAllCertificates = new TrustManager[]{
-            new X509TrustManager() {
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null; // Not relevant.
-                }
-
-                @Override
-                public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                    // Do nothing. Just allow them all.
-                }
-
-                @Override
-                public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                    // Do nothing. Just allow them all.
-                }
-            }
-        };
-
-        try {
-            SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(null, trustAllCertificates, new SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        } catch (GeneralSecurityException e) {
-            throw new ExceptionInInitializerError(e);
-        }
-    }
 
     public MonogatariSession(File monogatariRootDir, StoryBook storyBook, ReadableStoryBookMeta meta) {
         this.storyBook = storyBook;
@@ -169,7 +142,21 @@ public class MonogatariSession {
     }
 
     private String cacheImageFile(String url) throws Exception {
-        System.setProperty("http.agent", "Mozilla");
+        String contentType=HttpRequest.get(url).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36").contentType();
+        int index = contentType.indexOf("/");
+        String extension = contentType.substring(index + 1);
+        if ("jpeg".equals(extension)) {
+            extension = "jpg";
+        }
+        File tempFile=File.createTempFile("tmp", "."+extension);
+        HttpRequest.get(url).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36").receive(tempFile);
+        String randomName = "" + System.currentTimeMillis() + "." + extension;
+        FileUtils.copyFile(tempFile, new File(sessionFolder, randomName));
+        
+        System.out.println(tempFile.getAbsolutePath());
+        tempFile.deleteOnExit();
+        return randomName;
+        /*System.setProperty("http.agent", "Mozilla");
         URLConnection con = new URL(url).openConnection();
         String contentType = con.getContentType();
         int index = contentType.indexOf("/");
@@ -182,7 +169,7 @@ public class MonogatariSession {
         try (InputStream input = new URL(url).openStream(); OutputStream output = new FileOutputStream(new File(sessionFolder, randomName))) {
             IOUtils.copy(input, output);
         }
-        return randomName;
+        return randomName;*/
     }
 
     class MonogatariCharacterSpec {

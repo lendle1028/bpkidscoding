@@ -25,7 +25,6 @@ public class FakeReadableStoryBookMetaFactory {
         meta.setId(UUID.randomUUID().toString());
         meta.setOriginalStoryId(storyBook.getId());
         String [] characterURLs=new String[]{
-            "https://www.cup.com.hk/wp-content/uploads/2016/08/025.png",
             "https://pokemon.gameinfo.io/images/pokemon-go/149-00.png",
             "https://tw.portal-pokemon.com/play/resources/pokedex/img/pm/0bca57b27bed8e50cf33ac9411a45482d61d807b.png",
             "https://vignette.wikia.nocookie.net/goanimate-2/images/2/29/Blastoise_by_xous54-d2xqh0g.png/revision/latest?cb=20160905153327",
@@ -41,6 +40,7 @@ public class FakeReadableStoryBookMetaFactory {
         for(Object key : characterMap.keySet()){
             CharacterSpec spec=new CharacterSpec();
             spec.setName(""+key);
+            System.out.println("add character: "+key);
             spec.setNarrat(false);
             spec.setImageURL(characterURLs[index%characterURLs.length]);
             spec.setPage(-1);
