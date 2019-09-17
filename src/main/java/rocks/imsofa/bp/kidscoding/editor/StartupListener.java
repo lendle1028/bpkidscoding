@@ -7,18 +7,13 @@ package rocks.imsofa.bp.kidscoding.editor;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
@@ -46,6 +41,14 @@ public class StartupListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         ServletContext servletContext=sce.getServletContext();
+        File monogatariTempFolder=new File(servletContext.getRealPath("/storybook/reader/temp"));
+        if(monogatariTempFolder.exists()){
+            try {
+                FileUtils.deleteDirectory(monogatariTempFolder);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
         //dataSource.setUrl("jdbc:hsqldb:file:"+servletContext.getRealPath("/WEB-INF/db"));
         
         //dataSource.setUrl("jdbc:h2:file:"+servletContext.getRealPath("/WEB-INF/h2db"));

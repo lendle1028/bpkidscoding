@@ -80,7 +80,7 @@ public class ReadableStoryBookMeta {
         return applicable.isEmpty()?null:applicable.get(0);
     }
     
-    public CharacterSpec getCharacterSpec(String name, final int page, final int index){
+    public CharacterSpec getCharacterSpec(String name, final int page){
         List<CharacterSpec> applicable=new ArrayList<>();
         for(CharacterSpec spec : this.characterSpecs){
             if(name==null){
