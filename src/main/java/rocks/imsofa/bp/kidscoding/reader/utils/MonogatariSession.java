@@ -49,7 +49,9 @@ public class MonogatariSession {
     public MonogatariSession(File monogatariRootDir, StoryBook storyBook, ReadableStoryBookMeta meta) {
         this.storyBook = storyBook;
         this.meta = meta;
-        File tempFile = new File(monogatariRootDir, "temp");
+        File imgFolder=new File(monogatariRootDir, "img");
+        File charactersFolder=new File(imgFolder, "characters");
+        File tempFile = new File(charactersFolder, "temp");
         if (!tempFile.exists()) {
             tempFile.mkdir();
         }
@@ -109,6 +111,7 @@ public class MonogatariSession {
             } else {
                 monogatariCharacterSpec.stateImageMap.put("Page" + spec.getPage(), imageFileMap.get(spec.getImageURL()));
             }
+            index++;
         }
     }
 
@@ -119,9 +122,10 @@ public class MonogatariSession {
             SceneSpec sceneSpec = this.meta.getSceneSpec(i);
             this.commands.add("\"scene url(\'" + sceneSpec.getImageURL() + "\')\"");
             Map pageContent = pageContents.get(i);
-            List blocks = gson.fromJson("" + pageContent.get("blocks"), List.class);
+            //System.out.println("block="+pageContent.get("blocks"));
+            List blocks = (List) pageContent.get("blocks");
             for (int j = 0; j < blocks.size(); j++) {
-                Map pageJson = gson.fromJson("" + blocks.get(j), Map.class);
+                Map pageJson = (Map) blocks.get(j);
                 Map data = (Map) pageJson.get("data");
                 if ("characterQuote".equals(pageJson.get("type"))) {
                     //out.println("\"show "+data.get("character")+" "+data.get("message")+"\",");
@@ -132,7 +136,7 @@ public class MonogatariSession {
                     if (characterSpec.getPage() != -1) {
                         state = "Page" + i;
                     }
-                    this.commands.add("\"show " + character + " " + state + " center\",");
+                    this.commands.add("\"show " + character + " " + state + " center\"");
                     this.commands.add("\"" + character + " " + data.get("message") + "\"");
                 } else if ("os".equals(pageJson.get("type"))) {
                     this.commands.add("\"" + data.get("message") + "\"");

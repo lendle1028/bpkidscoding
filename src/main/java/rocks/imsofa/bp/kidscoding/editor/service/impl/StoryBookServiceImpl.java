@@ -48,7 +48,10 @@ public class StoryBookServiceImpl implements StoryBookService {
             meta.setTitle(rs.getString("title"));
             storyBook.setMeta(meta);
             Gson gson=new Gson();
-            storyBook.getPageContents().add(gson.fromJson(rs.getString("content"), Map.class));
+            Map pageContent=gson.fromJson(rs.getString("content"), Map.class);
+            storyBook.getPageContents().add(pageContent);
+            //System.out.println("content="+rs.getString("content"));
+            //System.out.println("\tblock="+new Gson().toJson(pageContent.get("blocks")));
             while (rs.next()) {
                 storyBook.getPageContents().add(gson.fromJson(rs.getString("content"), Map.class));
             }

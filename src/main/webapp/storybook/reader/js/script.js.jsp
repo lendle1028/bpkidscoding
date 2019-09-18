@@ -11,7 +11,7 @@
 <%
     ReadableStoryBookMetaService readableStoryBookMetaService=RequestContextUtils.findWebApplicationContext(request).getBean(ReadableStoryBookMetaService.class);
     StoryBookService storyBookService=RequestContextUtils.findWebApplicationContext(request).getBean(StoryBookService.class);
-    StoryBook storyBook=storyBookService.getStoryBook("1");
+    StoryBook storyBook=storyBookService.getStoryBook("0004e961-bf1a-4519-b2e2-952e63a83f6b");
     ReadableStoryBookMeta meta=readableStoryBookMetaService.findByStoryBookId(storyBook.getId()).get(0);
     MonogatariSession monogatariSession=new MonogatariSession(new File(application.getRealPath("/storybook/reader")), storyBook, meta);
     Gson gson=new Gson();

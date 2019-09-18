@@ -5,7 +5,6 @@
  */
 package rocks.imsofa.bp.kidscoding.editor.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -35,16 +34,18 @@ public class FakeReadableStoryBookMetaFactory {
             "https://assets.pcmag.com/media/images/588342-classroom-teachers-student.jpg?thumb=y&width=810&height=456"
         };
 
-        Map characterMap=storyBook.getMeta().getCharacters();
+        List<Map> characterList=(List) ((Map)storyBook.getMeta().getCharacters()).get("blocks");
         int index=0;
-        for(Object key : characterMap.keySet()){
+        for(Map entry : characterList){
+            Map data=(Map) entry.get("data");
             CharacterSpec spec=new CharacterSpec();
-            spec.setName(""+key);
-            System.out.println("add character: "+key);
+            spec.setName(""+data.get("character"));
+            //System.out.println("add character="+spec.getName());
             spec.setNarrat(false);
             spec.setImageURL(characterURLs[index%characterURLs.length]);
             spec.setPage(-1);
             meta.getCharacterSpecs().add(spec);
+            index++;
         }
         
         for(int i=0; i<storyBook.getPageContents().size(); i++){
