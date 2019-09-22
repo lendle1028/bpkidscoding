@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import rocks.imsofa.bp.kidscoding.editor.model.CharacterSpec;
-import rocks.imsofa.bp.kidscoding.editor.model.ReadableStoryBookMeta;
+import rocks.imsofa.bp.kidscoding.editor.model.PictureBookMeta;
 import rocks.imsofa.bp.kidscoding.editor.model.SceneSpec;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
 
@@ -17,9 +17,9 @@ import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
  *
  * @author lendle
  */
-public class FakeReadableStoryBookMetaFactory {
-    public static ReadableStoryBookMeta generate(StoryBook storyBook){
-        ReadableStoryBookMeta meta=new ReadableStoryBookMeta();
+public class FakePictureBookMetaFactory {
+    public static PictureBookMeta generate(StoryBook storyBook){
+        PictureBookMeta meta=new PictureBookMeta();
         meta.setAuthor(0);
         meta.setId(UUID.randomUUID().toString());
         meta.setOriginalStoryId(storyBook.getId());

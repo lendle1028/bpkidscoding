@@ -15,7 +15,7 @@ import java.util.List;
  * a readable story book is a storybook bundled with the artworks
  * @author lendle
  */
-public class ReadableStoryBookMeta {
+public class PictureBookMeta {
     private String id=null;
     private String originalStoryId=null;
     private List<CharacterSpec> characterSpecs=new ArrayList<>();

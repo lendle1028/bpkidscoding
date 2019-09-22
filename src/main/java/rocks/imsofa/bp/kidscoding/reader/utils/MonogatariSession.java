@@ -27,7 +27,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import rocks.imsofa.bp.kidscoding.editor.model.CharacterSpec;
-import rocks.imsofa.bp.kidscoding.editor.model.ReadableStoryBookMeta;
+import rocks.imsofa.bp.kidscoding.editor.model.PictureBookMeta;
 import rocks.imsofa.bp.kidscoding.editor.model.SceneSpec;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
 
@@ -41,12 +41,12 @@ public class MonogatariSession {
     private File sessionFolder = null;
     private Map<String, String> imageFileMap = new HashMap<>();//map url to internal file name
     private Map<String, MonogatariCharacterSpec> characterSpecs = new HashMap<>();//map character name to MonogatariCharacterSpec
-    private ReadableStoryBookMeta meta = null;
+    private PictureBookMeta meta = null;
     private String[] colors = new String[]{"#0000ff", "#cc66ff", "#ff0066", "#000066", "#009900", "#cc3300"};
     private List<String> commands = new ArrayList<>();
     private StoryBook storyBook = null;
 
-    public MonogatariSession(File monogatariRootDir, StoryBook storyBook, ReadableStoryBookMeta meta) {
+    public MonogatariSession(File monogatariRootDir, StoryBook storyBook, PictureBookMeta meta) {
         this.storyBook = storyBook;
         this.meta = meta;
         File imgFolder=new File(monogatariRootDir, "img");

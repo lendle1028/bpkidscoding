@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: localhost:3306
--- 產生時間： 2019 年 09 月 19 日 06:53
+-- 產生時間： 2019 年 09 月 23 日 06:42
 -- 伺服器版本: 5.7.27-0ubuntu0.18.04.1
 -- PHP 版本： 7.2.19-0ubuntu0.18.04.2
 
@@ -71,65 +71,66 @@ INSERT INTO `characters` (`ID`, `STORY`, `CONTENT`) VALUES
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `readable`
+-- 資料表結構 `picturebook`
 --
 
-DROP TABLE IF EXISTS `readable`;
-CREATE TABLE `readable` (
+DROP TABLE IF EXISTS `picturebook`;
+CREATE TABLE `picturebook` (
   `id` varchar(255) NOT NULL,
   `story` varchar(255) NOT NULL,
   `author` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 資料表的匯出資料 `readable`
+-- 資料表的匯出資料 `picturebook`
 --
 
-INSERT INTO `readable` (`id`, `story`, `author`) VALUES
+INSERT INTO `picturebook` (`id`, `story`, `author`) VALUES
 ('1', '1', 1);
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `readable_character`
+-- 資料表結構 `picturebook_character`
 --
 
-DROP TABLE IF EXISTS `readable_character`;
-CREATE TABLE `readable_character` (
+DROP TABLE IF EXISTS `picturebook_character`;
+CREATE TABLE `picturebook_character` (
   `id` varchar(255) NOT NULL,
-  `readableId` varchar(255) NOT NULL,
+  `picturebookId` varchar(255) NOT NULL,
   `page` int(11) NOT NULL DEFAULT '-1',
   `imageURL` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `narrat` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 資料表的匯出資料 `readable_character`
+-- 資料表的匯出資料 `picturebook_character`
 --
 
-INSERT INTO `readable_character` (`id`, `readableId`, `page`, `imageURL`, `name`) VALUES
-('1', '1', -1, 'https://tw.portal-pokemon.com/play/resources/pokedex/img/pm/0bca57b27bed8e50cf33ac9411a45482d61d807b.png', 'test2'),
-('2', '1', -1, 'https://img.4gamers.com.tw/ckfinder/images/TangBao/1811/21-eevee-day-01.jpg', 'test1');
+INSERT INTO `picturebook_character` (`id`, `picturebookId`, `page`, `imageURL`, `name`, `narrat`) VALUES
+('1', '1', -1, 'https://tw.portal-pokemon.com/play/resources/pokedex/img/pm/0bca57b27bed8e50cf33ac9411a45482d61d807b.png', 'test2', 0),
+('2', '1', -1, 'https://img.4gamers.com.tw/ckfinder/images/TangBao/1811/21-eevee-day-01.jpg', 'test1', 0);
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `readable_scene`
+-- 資料表結構 `picturebook_scene`
 --
 
-DROP TABLE IF EXISTS `readable_scene`;
-CREATE TABLE `readable_scene` (
+DROP TABLE IF EXISTS `picturebook_scene`;
+CREATE TABLE `picturebook_scene` (
   `id` varchar(255) NOT NULL,
-  `readableId` varchar(255) NOT NULL,
+  `picturebookId` varchar(255) NOT NULL,
   `page` int(11) NOT NULL DEFAULT '-1',
   `imageURL` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- 資料表的匯出資料 `readable_scene`
+-- 資料表的匯出資料 `picturebook_scene`
 --
 
-INSERT INTO `readable_scene` (`id`, `readableId`, `page`, `imageURL`) VALUES
+INSERT INTO `picturebook_scene` (`id`, `picturebookId`, `page`, `imageURL`) VALUES
 ('1', '1', -1, 'https://dubaitravelblog.com/wp-content/uploads/2019/04/coca-cola-arena-citywalk-dubai.jpg'),
 ('2', '1', 1, 'https://assets.pcmag.com/media/images/588342-classroom-teachers-student.jpg?thumb=y&width=810&height=456');
 
@@ -529,26 +530,26 @@ ALTER TABLE `characters`
   ADD PRIMARY KEY (`ID`);
 
 --
--- 資料表索引 `readable`
+-- 資料表索引 `picturebook`
 --
-ALTER TABLE `readable`
+ALTER TABLE `picturebook`
   ADD PRIMARY KEY (`id`),
   ADD KEY `story` (`story`),
   ADD KEY `author` (`author`);
 
 --
--- 資料表索引 `readable_character`
+-- 資料表索引 `picturebook_character`
 --
-ALTER TABLE `readable_character`
+ALTER TABLE `picturebook_character`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `readableId` (`readableId`);
+  ADD KEY `readableId` (`picturebookId`);
 
 --
--- 資料表索引 `readable_scene`
+-- 資料表索引 `picturebook_scene`
 --
-ALTER TABLE `readable_scene`
+ALTER TABLE `picturebook_scene`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `readableId` (`readableId`);
+  ADD KEY `readableId` (`picturebookId`);
 
 --
 -- 資料表索引 `story`
@@ -592,23 +593,23 @@ ALTER TABLE `users`
 --
 
 --
--- 資料表的 Constraints `readable`
+-- 資料表的 Constraints `picturebook`
 --
-ALTER TABLE `readable`
-  ADD CONSTRAINT `readable_ibfk_1` FOREIGN KEY (`story`) REFERENCES `story` (`ID`),
-  ADD CONSTRAINT `readable_ibfk_2` FOREIGN KEY (`author`) REFERENCES `users` (`ID`);
+ALTER TABLE `picturebook`
+  ADD CONSTRAINT `picturebook_ibfk_1` FOREIGN KEY (`story`) REFERENCES `story` (`ID`),
+  ADD CONSTRAINT `picturebook_ibfk_2` FOREIGN KEY (`author`) REFERENCES `users` (`ID`);
 
 --
--- 資料表的 Constraints `readable_character`
+-- 資料表的 Constraints `picturebook_character`
 --
-ALTER TABLE `readable_character`
-  ADD CONSTRAINT `readable_character_ibfk_1` FOREIGN KEY (`readableId`) REFERENCES `readable` (`id`);
+ALTER TABLE `picturebook_character`
+  ADD CONSTRAINT `picturebook_character_ibfk_1` FOREIGN KEY (`picturebookId`) REFERENCES `picturebook` (`id`);
 
 --
--- 資料表的 Constraints `readable_scene`
+-- 資料表的 Constraints `picturebook_scene`
 --
-ALTER TABLE `readable_scene`
-  ADD CONSTRAINT `readable_scene_ibfk_1` FOREIGN KEY (`readableId`) REFERENCES `readable` (`id`);
+ALTER TABLE `picturebook_scene`
+  ADD CONSTRAINT `picturebook_scene_ibfk_1` FOREIGN KEY (`picturebookId`) REFERENCES `picturebook` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

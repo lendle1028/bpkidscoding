@@ -12,8 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
-import rocks.imsofa.bp.kidscoding.editor.model.ReadableStoryBookMeta;
-import rocks.imsofa.bp.kidscoding.editor.service.ReadableStoryBookMetaService;
+import rocks.imsofa.bp.kidscoding.editor.model.PictureBookMeta;
+import rocks.imsofa.bp.kidscoding.editor.service.PictureBookMetaService;
 
 /**
  *
@@ -22,16 +22,16 @@ import rocks.imsofa.bp.kidscoding.editor.service.ReadableStoryBookMetaService;
 @Path("readable")
 public class ReadableStoryBookMetaWS {
     @Autowired
-    private ReadableStoryBookMetaService readableStoryBookMetaService=null;
+    private PictureBookMetaService readableStoryBookMetaService=null;
 
-    public void setReadableStoryBookMetaService(ReadableStoryBookMetaService readableStoryBookMetaService) {
+    public void setReadableStoryBookMetaService(PictureBookMetaService readableStoryBookMetaService) {
         this.readableStoryBookMetaService = readableStoryBookMetaService;
     }
     
     @GET
     @Path("/storybook/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ReadableStoryBookMeta> findByStoryBookId(@PathParam("id") String id){
+    public List<PictureBookMeta> findByStoryBookId(@PathParam("id") String id){
         return this.readableStoryBookMetaService.findByStoryBookId(id);
     }
 }
