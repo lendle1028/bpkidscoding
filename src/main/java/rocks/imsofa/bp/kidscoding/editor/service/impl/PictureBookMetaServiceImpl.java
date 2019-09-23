@@ -146,6 +146,9 @@ public class PictureBookMetaServiceImpl implements PictureBookMetaService{
     @Override
     @Transactional
     public void deletePictureBookMeta(String id) {
+        jdbcTemplate.update("delete from picturebook_character where picturebookId=?", id);
+        jdbcTemplate.update("delete from picturebook_scene where picturebookId=?", id);
+        jdbcTemplate.update("delete from picturebook where id=?", id);
     }
     
 }

@@ -1,7 +1,7 @@
 <%@page import="java.io.File"%>
 <%@page import="rocks.imsofa.bp.kidscoding.reader.utils.MonogatariSession"%>
-<%@page import="rocks.imsofa.bp.kidscoding.editor.model.ReadableStoryBookMeta"%>
-<%@page import="rocks.imsofa.bp.kidscoding.editor.service.ReadableStoryBookMetaService"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.model.PictureBookMeta"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.service.PictureBookMetaService"%>
 <%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBook"%>
 <%@page import="rocks.imsofa.bp.kidscoding.editor.service.StoryBookService"%>
 <%@page contentType="text/javascript" pageEncoding="UTF-8"%>
@@ -9,10 +9,10 @@
 <%@page import="java.util.*, com.google.gson.*" %>
 "use strict";
 <%
-    ReadableStoryBookMetaService readableStoryBookMetaService=RequestContextUtils.findWebApplicationContext(request).getBean(ReadableStoryBookMetaService.class);
+    PictureBookMetaService readableStoryBookMetaService=RequestContextUtils.findWebApplicationContext(request).getBean(PictureBookMetaService.class);
     StoryBookService storyBookService=RequestContextUtils.findWebApplicationContext(request).getBean(StoryBookService.class);
-    StoryBook storyBook=storyBookService.getStoryBook("0004e961-bf1a-4519-b2e2-952e63a83f6b");
-    ReadableStoryBookMeta meta=readableStoryBookMetaService.findByStoryBookId(storyBook.getId()).get(0);
+    StoryBook storyBook=storyBookService.getStoryBook("1");
+    PictureBookMeta meta=readableStoryBookMetaService.findByStoryBookId(storyBook.getId()).get(0);
     MonogatariSession monogatariSession=new MonogatariSession(new File(application.getRealPath("/storybook/reader")), storyBook, meta);
     Gson gson=new Gson();
 %>

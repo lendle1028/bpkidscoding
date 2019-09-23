@@ -20,18 +20,18 @@ import rocks.imsofa.bp.kidscoding.editor.service.PictureBookMetaService;
  * @author lendle
  */
 @Path("readable")
-public class ReadableStoryBookMetaWS {
+public class PictureBookMetaWS {
     @Autowired
-    private PictureBookMetaService readableStoryBookMetaService=null;
+    private PictureBookMetaService pictureBookMetaService=null;
 
-    public void setReadableStoryBookMetaService(PictureBookMetaService readableStoryBookMetaService) {
-        this.readableStoryBookMetaService = readableStoryBookMetaService;
+    public void setReadableStoryBookMetaService(PictureBookMetaService pictureBookMetaService) {
+        this.pictureBookMetaService = pictureBookMetaService;
     }
     
     @GET
     @Path("/storybook/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<PictureBookMeta> findByStoryBookId(@PathParam("id") String id){
-        return this.readableStoryBookMetaService.findByStoryBookId(id);
+        return this.pictureBookMetaService.findByStoryBookId(id);
     }
 }
