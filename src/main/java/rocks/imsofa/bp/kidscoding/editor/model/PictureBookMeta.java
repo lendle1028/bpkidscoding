@@ -21,7 +21,17 @@ public class PictureBookMeta {
     private List<CharacterSpec> characterSpecs=new ArrayList<>();
     private List<SceneSpec> sceneSpecs=new ArrayList<>();
     private int author;
+    private String title;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    
     public int getAuthor() {
         return author;
     }

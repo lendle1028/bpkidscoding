@@ -83,7 +83,7 @@
 	<script src="js/strings.js"></script>
 	<script src="js/options.js"></script>
 	<script src="js/storage.js"></script>
-	<script src="js/script.js.jsp"></script>
+	<script src="js/script.js.jsp?id=<%=request.getParameter("id")%>"></script>
         <!--script src="js/script_1.js"></script-->
 	<script src="js/monogatari.js"></script>
 	<script src="js/main.js"></script>

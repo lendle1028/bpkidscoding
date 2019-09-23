@@ -53,6 +53,7 @@ public class PictureBookMetaServiceImpl implements PictureBookMetaService{
             meta.setAuthor(rs.getInt("author"));
             meta.setId(id);
             meta.setOriginalStoryId(rs.getString("story"));
+            meta.setTitle(rs.getString("title"));
             List<CharacterSpec> characterSpecs=jdbcTemplate.query("select * from picturebook_character where picturebookId=?", 
                     new Object[]{id},
                     new RowMapper<CharacterSpec>(){
