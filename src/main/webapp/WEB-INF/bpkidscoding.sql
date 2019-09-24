@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: localhost:3306
--- 產生時間： 2019 年 09 月 23 日 06:42
+-- 產生時間： 2019 年 09 月 24 日 12:51
 -- 伺服器版本: 5.7.27-0ubuntu0.18.04.1
--- PHP 版本： 7.2.19-0ubuntu0.18.04.2
+-- PHP 版本： 5.6.40-8+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -29,11 +29,12 @@ USE `bpkidscoding`;
 --
 
 DROP TABLE IF EXISTS `characters`;
-CREATE TABLE `characters` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `characters` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `STORY` varchar(255) DEFAULT NULL,
-  `CONTENT` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `CONTENT` text,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 --
 -- 資料表的匯出資料 `characters`
@@ -75,18 +76,22 @@ INSERT INTO `characters` (`ID`, `STORY`, `CONTENT`) VALUES
 --
 
 DROP TABLE IF EXISTS `picturebook`;
-CREATE TABLE `picturebook` (
+CREATE TABLE IF NOT EXISTS `picturebook` (
   `id` varchar(255) NOT NULL,
   `story` varchar(255) NOT NULL,
-  `author` int(11) NOT NULL
+  `author` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `story` (`story`),
+  KEY `author` (`author`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 資料表的匯出資料 `picturebook`
 --
 
-INSERT INTO `picturebook` (`id`, `story`, `author`) VALUES
-('1', '1', 1);
+INSERT INTO `picturebook` (`id`, `story`, `author`, `title`) VALUES
+('1', '1', 1, 'this is a test');
 
 -- --------------------------------------------------------
 
@@ -95,13 +100,15 @@ INSERT INTO `picturebook` (`id`, `story`, `author`) VALUES
 --
 
 DROP TABLE IF EXISTS `picturebook_character`;
-CREATE TABLE `picturebook_character` (
+CREATE TABLE IF NOT EXISTS `picturebook_character` (
   `id` varchar(255) NOT NULL,
   `picturebookId` varchar(255) NOT NULL,
   `page` int(11) NOT NULL DEFAULT '-1',
   `imageURL` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `narrat` int(11) NOT NULL DEFAULT '0'
+  `narrat` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `readableId` (`picturebookId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -119,11 +126,13 @@ INSERT INTO `picturebook_character` (`id`, `picturebookId`, `page`, `imageURL`, 
 --
 
 DROP TABLE IF EXISTS `picturebook_scene`;
-CREATE TABLE `picturebook_scene` (
+CREATE TABLE IF NOT EXISTS `picturebook_scene` (
   `id` varchar(255) NOT NULL,
   `picturebookId` varchar(255) NOT NULL,
   `page` int(11) NOT NULL DEFAULT '-1',
-  `imageURL` varchar(255) NOT NULL
+  `imageURL` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `readableId` (`picturebookId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -141,13 +150,14 @@ INSERT INTO `picturebook_scene` (`id`, `picturebookId`, `page`, `imageURL`) VALU
 --
 
 DROP TABLE IF EXISTS `story`;
-CREATE TABLE `story` (
+CREATE TABLE IF NOT EXISTS `story` (
   `ID` varchar(255) NOT NULL,
   `AUTHOR` int(11) DEFAULT NULL,
   `CREATED_DATE` varchar(8) DEFAULT NULL,
   `LAST_EDITED_DATE` varchar(8) DEFAULT NULL,
   `TITLE` varchar(255) DEFAULT NULL,
-  `SUMMARY` text
+  `SUMMARY` text,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -190,12 +200,13 @@ INSERT INTO `story` (`ID`, `AUTHOR`, `CREATED_DATE`, `LAST_EDITED_DATE`, `TITLE`
 --
 
 DROP TABLE IF EXISTS `storycontent`;
-CREATE TABLE `storycontent` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `storycontent` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `STORY` varchar(255) DEFAULT NULL,
   `PAGE` int(11) DEFAULT NULL,
-  `CONTENT` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `CONTENT` text,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=274 DEFAULT CHARSET=utf8;
 
 --
 -- 資料表的匯出資料 `storycontent`
@@ -476,7 +487,7 @@ INSERT INTO `storycontent` (`ID`, `STORY`, `PAGE`, `CONTENT`) VALUES
 -- (請參考以下實際畫面)
 --
 DROP VIEW IF EXISTS `storymeta`;
-CREATE TABLE `storymeta` (
+CREATE TABLE IF NOT EXISTS `storymeta` (
 `ID` varchar(255)
 ,`AUTHOR` int(11)
 ,`CREATED_DATE` varchar(8)
@@ -493,14 +504,15 @@ CREATE TABLE `storymeta` (
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `USER_ID` varchar(255) DEFAULT NULL,
   `EMAIL` varchar(255) DEFAULT NULL,
   `JOIN_DATE` varchar(14) DEFAULT NULL,
   `LAST_LOGIN` varchar(14) DEFAULT NULL,
-  `google_account` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `google_account` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- 資料表的匯出資料 `users`
@@ -508,7 +520,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`ID`, `USER_ID`, `EMAIL`, `JOIN_DATE`, `LAST_LOGIN`, `google_account`) VALUES
 (1, 'lendle', 'lendle.tseng@gmail.com', '20190101', '20190101', ''),
-(2, 'lendle', 'lendle.tseng@gmail.com', '20190808065012', '20190918065512', 'lendle.tseng@gmail.com');
+(2, 'lendle', 'lendle.tseng@gmail.com', '20190808065012', '20190924124956', 'lendle.tseng@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -519,75 +531,6 @@ DROP TABLE IF EXISTS `storymeta`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `storymeta`  AS  (select `story`.`ID` AS `ID`,`story`.`AUTHOR` AS `AUTHOR`,`story`.`CREATED_DATE` AS `CREATED_DATE`,`story`.`LAST_EDITED_DATE` AS `LAST_EDITED_DATE`,`story`.`TITLE` AS `TITLE`,`story`.`SUMMARY` AS `SUMMARY`,`characters`.`CONTENT` AS `characters` from (`story` join `characters`) where (`story`.`ID` = `characters`.`STORY`)) ;
 
---
--- 已匯出資料表的索引
---
-
---
--- 資料表索引 `characters`
---
-ALTER TABLE `characters`
-  ADD PRIMARY KEY (`ID`);
-
---
--- 資料表索引 `picturebook`
---
-ALTER TABLE `picturebook`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `story` (`story`),
-  ADD KEY `author` (`author`);
-
---
--- 資料表索引 `picturebook_character`
---
-ALTER TABLE `picturebook_character`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `readableId` (`picturebookId`);
-
---
--- 資料表索引 `picturebook_scene`
---
-ALTER TABLE `picturebook_scene`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `readableId` (`picturebookId`);
-
---
--- 資料表索引 `story`
---
-ALTER TABLE `story`
-  ADD PRIMARY KEY (`ID`);
-
---
--- 資料表索引 `storycontent`
---
-ALTER TABLE `storycontent`
-  ADD PRIMARY KEY (`ID`);
-
---
--- 資料表索引 `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`ID`);
-
---
--- 在匯出的資料表使用 AUTO_INCREMENT
---
-
---
--- 使用資料表 AUTO_INCREMENT `characters`
---
-ALTER TABLE `characters`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
---
--- 使用資料表 AUTO_INCREMENT `storycontent`
---
-ALTER TABLE `storycontent`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=274;
---
--- 使用資料表 AUTO_INCREMENT `users`
---
-ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- 已匯出資料表的限制(Constraint)
 --

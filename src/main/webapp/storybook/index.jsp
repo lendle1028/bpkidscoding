@@ -29,7 +29,7 @@
     <div id="search-result-container">
         <div class="search-result" v-for="result in results">
             <div class="content">
-                <h3><a v-bind:href="'../character-quote/index.old.jsp?id='+result.id">{{result.title}}</a></h3>
+                <h3><a v-bind:href="'listing.jsp?storyBookId='+result.id">{{result.title}}</a></h3>
                 <div>
                     <p>{{result.summary}}</p>
                 </div>

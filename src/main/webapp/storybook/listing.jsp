@@ -43,7 +43,7 @@
             <h3>簡介</h3>
             <div>
                 <p>
-                    <button>編輯</button><br/>
+                    <a href="../character-quote/index.old.jsp?id=<%=request.getParameter("storyBookId")%>" target="_blank"><button>編輯</button></a><br/>
                     作者：<%=storyBook.getMeta().getAuthor()%><br/>
                     <span id="summary"><%=storyBook.getMeta().getSummary()%></span>
                 </p>
