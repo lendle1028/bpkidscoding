@@ -43,7 +43,8 @@
             <h3>簡介</h3>
             <div>
                 <p>
-                    <a href="../character-quote/index.old.jsp?id=<%=request.getParameter("storyBookId")%>" target="_blank"><button>編輯</button></a><br/>
+                    <a href="../character-quote/index.old.jsp?id=<%=request.getParameter("storyBookId")%>" target="_blank"><button>編輯故事內容</button></a>
+                    <a href="picturebook/editor.jsp?storyBookId=<%=request.getParameter("storyBookId")%>" target="_blank"><button>編輯素材</button></a><br/>
                     作者：<%=storyBook.getMeta().getAuthor()%><br/>
                     <span id="summary"><%=storyBook.getMeta().getSummary()%></span>
                 </p>
@@ -95,6 +96,7 @@
                             out.println("<a href='reader/index.jsp?id="+meta.getId()+"' target='_blank'><img style='width: 100px' src='"+meta.getCharacterSpecs().get(0).getImageURL()+"'/></a>");
                             out.println("</td><td>");
                             out.println(meta.getTitle());
+                            out.println("<a href='picturebook/editor.jsp?storyBookId="+request.getParameter("storyBookId")+"&id="+meta.getId()+"'><button>編輯</button></a>");
                             out.println("</td></tr>");
                         }
                     %>
