@@ -33,7 +33,7 @@
             $(document).ready(function () {
                 $("#tabs").tabs();
                 $("#charactersList").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
-                $( "#charactersList li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+                $("#charactersList li").removeClass("ui-corner-top").addClass("ui-corner-left");
             });
         </script>
         <div id="tabs">
@@ -66,12 +66,42 @@
                         </table>
                     </div>
                     <div id="b">
-                        <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+                        <table style="width: 100%">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 20%">Page 0</td>
+                                    <td style="width: 80%"><input type="text" style="width: 100%"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Page 1</td>
+                                    <td><input type="text" style="width: 100%"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Page 2</td>
+                                    <td><input type="text" style="width: 100%"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
             <div id="scenes">
-                <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+                <table style="width: 100%">
+                    <tbody>
+                        <tr>
+                            <td style="width: 20%">Page 0</td>
+                            <td style="width: 80%"><input type="text" style="width: 100%"/></td>
+                        </tr>
+                        <tr>
+                            <td>Page 1</td>
+                            <td><input type="text" style="width: 100%"/></td>
+                        </tr>
+                        <tr>
+                            <td>Page 2</td>
+                            <td><input type="text" style="width: 100%"/></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </body>
