@@ -8,28 +8,16 @@ package rocks.imsofa.bp.kidscoding.reader.utils;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.GeneralSecurityException;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import rocks.imsofa.bp.kidscoding.editor.model.CharacterSpec;
 import rocks.imsofa.bp.kidscoding.editor.model.PictureBookMeta;
 import rocks.imsofa.bp.kidscoding.editor.model.SceneSpec;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
+import rocks.imsofa.bp.kidscoding.editor.model.StoryBook.PageContent.PageContentBlock;
 
 /**
  *
@@ -117,16 +105,16 @@ public class MonogatariSession {
 
     private void initCommands() {
         Gson gson = new Gson();
-        List<Map> pageContents = storyBook.getPageContents();
+        List<StoryBook.PageContent> pageContents = storyBook.getPageContents();
         for (int i = 0; i < pageContents.size(); i++) {
             SceneSpec sceneSpec = this.meta.getSceneSpec(i);
             this.commands.add("\"scene url(\'" + sceneSpec.getImageURL() + "\')\"");
-            Map pageContent = pageContents.get(i);
+            StoryBook.PageContent pageContent = pageContents.get(i);
             //System.out.println("block="+pageContent.get("blocks"));
-            List blocks = (List) pageContent.get("blocks");
+            List<StoryBook.PageContent.PageContentBlock> blocks = (List) pageContent.getBlocks();
             for (int j = 0; j < blocks.size(); j++) {
-                Map pageJson = (Map) blocks.get(j);
-                Map data = (Map) pageJson.get("data");
+                PageContentBlock pageJson = (PageContentBlock) blocks.get(j);
+                Map data = (Map) pageJson.getData();
                 if ("characterQuote".equals(pageJson.get("type"))) {
                     //out.println("\"show "+data.get("character")+" "+data.get("message")+"\",");
                     String character = (String) data.get("character");

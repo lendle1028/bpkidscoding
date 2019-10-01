@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.GenericServlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
+import rocks.imsofa.bp.kidscoding.editor.model.StoryBook.PageContent;
+import rocks.imsofa.bp.kidscoding.editor.model.StoryBook.PageContent.PageContentBlock;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta;
 import rocks.imsofa.bp.kidscoding.editor.service.StoryBookService;
 
@@ -96,14 +97,14 @@ public class GenerateSampleStoryBook extends HttpServlet {
                 this.generateCharacterQuoteBlock(character2, this.generateParagraph(20))+"]}", Map.class));
         book.setMeta(meta);
         
-        List<Map> contents=new ArrayList<>();
+        List<PageContent> contents=new ArrayList<>();
         Gson gson=new Gson();
         for(int i=0; i<10; i++){
             contents.add(gson.fromJson("{ \"time\": "+System.currentTimeMillis()+
                     ", \"blocks\": ["+this.generateCharacterQuoteBlock(character1, this.generateParagraph(20))+", { \"type\": \"os\", \"data\": { \"message\": \""+
                     this.generateParagraph(10)+"\" } }, { \"type\": \"separator\", \"data\": {} }, "+
                     this.generateCharacterQuoteBlock(character2, this.generateParagraph(20))+"], "
-                    + "\"version\": \"2.15.0\" }", Map.class));
+                    + "\"version\": \"2.15.0\" }", PageContent.class));
         }
         book.setPageContents(contents);
         storyBookService.addStoryBook(book);

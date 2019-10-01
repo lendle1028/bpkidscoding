@@ -14,6 +14,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
+import rocks.imsofa.bp.kidscoding.editor.model.StoryBook.PageContent;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta;
 import rocks.imsofa.bp.kidscoding.editor.service.StoryBookService;
 
@@ -48,12 +49,12 @@ public class StoryBookServiceImpl implements StoryBookService {
             meta.setTitle(rs.getString("title"));
             storyBook.setMeta(meta);
             Gson gson=new Gson();
-            Map pageContent=gson.fromJson(rs.getString("content"), Map.class);
+            PageContent pageContent=gson.fromJson(rs.getString("content"), PageContent.class);
             storyBook.getPageContents().add(pageContent);
             //System.out.println("content="+rs.getString("content"));
             //System.out.println("\tblock="+new Gson().toJson(pageContent.get("blocks")));
             while (rs.next()) {
-                storyBook.getPageContents().add(gson.fromJson(rs.getString("content"), Map.class));
+                storyBook.getPageContents().add(gson.fromJson(rs.getString("content"), PageContent.class));
             }
             return storyBook;
         }
@@ -76,7 +77,7 @@ public class StoryBookServiceImpl implements StoryBookService {
                 storyBook.getId(), new Gson().toJson(meta.getCharacters()));
         int pageNumber = 0;
         Gson gson=new Gson();
-        for (Map content : storyBook.getPageContents()) {
+        for (PageContent content : storyBook.getPageContents()) {
             jdbcTemplate.update("insert into storycontent (story, page, content) values (?,?,?)",
                     storyBook.getId(), pageNumber++, gson.toJson(content));
         }

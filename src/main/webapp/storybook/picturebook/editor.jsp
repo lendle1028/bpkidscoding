@@ -46,7 +46,8 @@
             StoryBookService storyBookService=RequestContextUtils.findWebApplicationContext(request).getBean(StoryBookService.class);
             StoryBook storyBook=storyBookService.getStoryBook(request.getParameter("storyBookId"));
             StoryBookMeta meta=storyBook.getMeta();
-            PictureBookMetaService pictureBookMetaService=RequestContextUtils.findWebApplicationContext(request).getBean(PictureBookMetaService.class);
+            //PictureBookMetaService pictureBookMetaService=RequestContextUtils.findWebApplicationContext(request).getBean(PictureBookMetaService.class);
+            int pageCount=storyBook.getPageContents().size();
         %>
         <div id="tabs">
             <ul>
