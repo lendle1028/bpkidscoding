@@ -4,6 +4,11 @@
     Author     : lendle
 --%>
 
+<%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.service.PictureBookMetaService"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBook"%>
+<%@page import="org.springframework.web.servlet.support.RequestContextUtils"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.service.StoryBookService"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -36,6 +41,13 @@
                 $("#charactersList li").removeClass("ui-corner-top").addClass("ui-corner-left");
             });
         </script>
+        <%
+            String storyBookId=request.getParameter("storyBookId");
+            StoryBookService storyBookService=RequestContextUtils.findWebApplicationContext(request).getBean(StoryBookService.class);
+            StoryBook storyBook=storyBookService.getStoryBook(request.getParameter("storyBookId"));
+            StoryBookMeta meta=storyBook.getMeta();
+            PictureBookMetaService pictureBookMetaService=RequestContextUtils.findWebApplicationContext(request).getBean(PictureBookMetaService.class);
+        %>
         <div id="tabs">
             <ul>
                 <li><a href="#characters">角色</a></li>
