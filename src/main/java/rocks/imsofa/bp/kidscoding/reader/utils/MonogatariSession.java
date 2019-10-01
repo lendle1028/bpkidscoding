@@ -115,7 +115,7 @@ public class MonogatariSession {
             for (int j = 0; j < blocks.size(); j++) {
                 PageContentBlock pageJson = (PageContentBlock) blocks.get(j);
                 Map data = (Map) pageJson.getData();
-                if ("characterQuote".equals(pageJson.get("type"))) {
+                if ("characterQuote".equals(pageJson.getType())) {
                     //out.println("\"show "+data.get("character")+" "+data.get("message")+"\",");
                     String character = (String) data.get("character");
                     System.out.println("character=" + character);
@@ -126,7 +126,7 @@ public class MonogatariSession {
                     }
                     this.commands.add("\"show " + character + " " + state + " center\"");
                     this.commands.add("\"" + character + " " + data.get("message") + "\"");
-                } else if ("os".equals(pageJson.get("type"))) {
+                } else if ("os".equals(pageJson.getType())) {
                     this.commands.add("\"" + data.get("message") + "\"");
                 }
             }

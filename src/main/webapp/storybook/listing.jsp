@@ -4,6 +4,8 @@
     Author     : lendle
 --%>
 
+<%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta.CharacterBlock"%>
 <%@page import="rocks.imsofa.bp.kidscoding.editor.model.PictureBookMeta"%>
 <%@page import="rocks.imsofa.bp.kidscoding.editor.service.PictureBookMetaService"%>
 <%@page import="java.util.List"%>
@@ -53,8 +55,8 @@
             <div>
                 <ul>
                     <%
-                        for(Object data : (List)storyBook.getMeta().getCharacters().get("blocks")){
-                            Map map=(Map)((Map)data).get("data");
+                        for(StoryBookMeta.CharacterBlock data : storyBook.getMeta().getCharacters().getBlocks()){
+                            Map map=data.getData();
                             String key=(String)map.get("character");
                             String value=(String)map.get("message");
                     %>
@@ -68,8 +70,8 @@
             <div>
                 <ul>
                     <%
-                        for(Map data : storyBook.getPageContents()){
-                            Map content=(Map)((Map)((List)data.get("blocks")).get(0)).get("data");
+                        for(StoryBook.PageContent data : storyBook.getPageContents()){
+                            Map content=data.getBlocks().get(0).getData();
                             String value=(String)content.get("message");
                     %>
                     <li><%=value%></li>

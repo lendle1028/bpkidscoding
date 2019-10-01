@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBook.PageContent;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta;
+import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta.Characters;
 import rocks.imsofa.bp.kidscoding.editor.service.StoryBookService;
 
 /**
@@ -42,7 +43,7 @@ public class StoryBookServiceImpl implements StoryBookService {
             storyBook.setId(rs.getString("id"));
             meta.setId(rs.getString("id"));
             meta.setAuthor(rs.getInt("author"));
-            meta.setCharacters(new Gson().fromJson(rs.getString("characters"), Map.class));
+            meta.setCharacters(new Gson().fromJson(rs.getString("characters"), Characters.class));
             meta.setCreatedDate(rs.getString("CREATED_DATE"));//
             meta.setLastEditedDate(rs.getString("last_edited_date"));
             meta.setSummary(rs.getString("summary"));

@@ -30,6 +30,7 @@ import rocks.imsofa.bp.kidscoding.editor.model.StoryBook;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBook.PageContent;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBook.PageContent.PageContentBlock;
 import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta;
+import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta.Characters;
 import rocks.imsofa.bp.kidscoding.editor.service.StoryBookService;
 
 /**
@@ -94,7 +95,7 @@ public class GenerateSampleStoryBook extends HttpServlet {
         
         meta.setCharacters(new Gson().fromJson("{\"time\": "+System.currentTimeMillis()+", \"version\": \"2.15.0\", \"blocks\": ["+
                 this.generateCharacterQuoteBlock(character1, this.generateParagraph(20))+", "+
-                this.generateCharacterQuoteBlock(character2, this.generateParagraph(20))+"]}", Map.class));
+                this.generateCharacterQuoteBlock(character2, this.generateParagraph(20))+"]}", Characters.class));
         book.setMeta(meta);
         
         List<PageContent> contents=new ArrayList<>();

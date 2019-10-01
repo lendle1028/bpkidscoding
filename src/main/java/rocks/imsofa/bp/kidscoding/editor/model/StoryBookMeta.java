@@ -5,6 +5,9 @@
  */
 package rocks.imsofa.bp.kidscoding.editor.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,12 +15,13 @@ import java.util.Map;
  * @author lendle
  */
 public class StoryBookMeta {
+
     private String title;
     private int author;
     private String createdDate;
     private String lastEditedDate;
     private String summary;
-    private Map characters;
+    private Characters characters;
     private String id;
 
     public String getTitle() {
@@ -60,11 +64,11 @@ public class StoryBookMeta {
         this.summary = summary;
     }
 
-    public Map getCharacters() {
+    public Characters getCharacters() {
         return characters;
     }
 
-    public void setCharacters(Map characters) {
+    public void setCharacters(Characters characters) {
         this.characters = characters;
     }
 
@@ -75,6 +79,57 @@ public class StoryBookMeta {
     public void setId(String id) {
         this.id = id;
     }
-    
-    
+
+    public static class Characters {
+        private long time=-1;
+        private String version=null;
+        private List<CharacterBlock> blocks=new ArrayList<>();
+
+        public long getTime() {
+            return time;
+        }
+
+        public void setTime(long time) {
+            this.time = time;
+        }
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
+        }
+
+        public List<CharacterBlock> getBlocks() {
+            return blocks;
+        }
+
+        public void setBlocks(List<CharacterBlock> blocks) {
+            this.blocks = blocks;
+        }
+        
+    }
+
+    public static class CharacterBlock {
+        private String type = null;
+        private Map<String, String> data = new HashMap<>();
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public Map<String, String> getData() {
+            return data;
+        }
+
+        public void setData(Map<String, String> data) {
+            this.data = data;
+        }
+        
+    }
 }

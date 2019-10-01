@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
+import rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta.Characters;
 
 /**
  *
@@ -21,7 +22,7 @@ public class StoryBookMetaRowMapper implements RowMapper<StoryBookMeta>{
     public StoryBookMeta mapRow(ResultSet rs, int i) throws SQLException {
         StoryBookMeta meta=new StoryBookMeta();
         meta.setAuthor(rs.getInt("author"));
-        meta.setCharacters(new Gson().fromJson(rs.getString("characters"), Map.class));
+        meta.setCharacters(new Gson().fromJson(rs.getString("characters"), Characters.class));
         meta.setCreatedDate(rs.getString("created_date"));
         meta.setLastEditedDate(rs.getString("last_edited_date"));
         meta.setId(rs.getString("id"));
