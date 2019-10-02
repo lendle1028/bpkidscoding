@@ -46,7 +46,7 @@
             let storyBookWS = new StoryBookJS(url.substring(0, index));
             let pictureBookWS = new PictureBookMetaJS(url.substring(0, index));
             let storyBook = null;
-            
+
             let vue = null;
 
             async function run() {
@@ -68,10 +68,21 @@
                     characterSpecsMap[c.name].push(c);
                 }
                 vue = new Vue({
-                    el: "#tabs",
+                    el: "#app",
                     data: {
                         "pictureBook": pictureBook,
                         "characterSpecsMap": characterSpecsMap
+                    },
+                    methods:{
+                        save: function(){
+                            console.log(1);
+                            (async function(){
+                                console.log(vue.pictureBook);
+                                let ret=await pictureBookWS.addPictureBookMeta(vue.pictureBook);
+                                console.log(ret);
+                            })();
+                            
+                        }
                     }
                 });
                 $("#tabs").tabs();
@@ -83,40 +94,42 @@
                 run();
             });
         </script>
-
-        <div id="tabs">
-            <ul>
-                <li><a href="#characters">角色</a></li>
-                <li><a href="#scenes">場景</a></li>
-            </ul>
-            <div id="characters">
-                <div id="charactersList">
-                    <ul>
-                        <li v-for="(value, name) in characterSpecsMap">
-                            <a v-bind:href="'#'+name">{{name}}</a>
-                        </li>
-                    </ul>
-                    <div v-for="(value, name) in characterSpecsMap" v-bind:id="name">
-                        <table style="width:100%">
-                            <tbody>
-                                <tr v-for="(c, index) in value">
-                                    <td style="width: 20%">Page {{index}}</td>
-                                    <td style="width: 80%"><input type="text" style="width: 100%" v-bind:id="'character_'+name+'_'+index" v-model="c.imageURL"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
+        <div id="app">
+            <button v-on:click="save();">Save</button>
+            <div id="tabs">
+                <ul>
+                    <li><a href="#characters">角色</a></li>
+                    <li><a href="#scenes">場景</a></li>
+                </ul>
+                <div id="characters">
+                    <div id="charactersList">
+                        <ul>
+                            <li v-for="(value, name) in characterSpecsMap">
+                                <a v-bind:href="'#'+name">{{name}}</a>
+                            </li>
+                        </ul>
+                        <div v-for="(value, name) in characterSpecsMap" v-bind:id="name">
+                            <table style="width:100%">
+                                <tbody>
+                                    <tr v-for="(c, index) in value">
+                                        <td style="width: 20%">Page {{index}}</td>
+                                        <td style="width: 80%"><input type="text" style="width: 100%" v-bind:id="'character_'+name+'_'+index" v-model="c.imageURL"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="scenes">
-                <table style="width: 100%">
-                    <tbody>
-                        <tr v-for="(value, index) in pictureBook.sceneSpecs">
-                            <td style="width: 20%">Page {{index}}</td>
-                            <td style="width: 80%"><input type="text" style="width: 100%" v-bind:id="'scene_'+index" v-model="value.imageURL"/></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div id="scenes">
+                    <table style="width: 100%">
+                        <tbody>
+                            <tr v-for="(value, index) in pictureBook.sceneSpecs">
+                                <td style="width: 20%">Page {{index}}</td>
+                                <td style="width: 80%"><input type="text" style="width: 100%" v-bind:id="'scene_'+index" v-model="value.imageURL"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </body>

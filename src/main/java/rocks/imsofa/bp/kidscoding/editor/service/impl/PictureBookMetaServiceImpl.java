@@ -111,6 +111,7 @@ public class PictureBookMetaServiceImpl implements PictureBookMetaService{
     @Override
     @Transactional
     public PictureBookMeta addPictureBookMeta(PictureBookMeta meta) {
+        System.out.println("meta.id="+meta.getId());
         String uuid=(meta.getId()==null)?UUID.randomUUID().toString():meta.getId();
         meta.setId(uuid);
         jdbcTemplate.update(
@@ -120,7 +121,8 @@ public class PictureBookMetaServiceImpl implements PictureBookMetaService{
                 meta.getAuthor());
         for(CharacterSpec characterSpec : meta.getCharacterSpecs()){
             jdbcTemplate.update(
-                "insert into picturebook_character (picturebookId,page,imageURL,name,narrat)", 
+                "insert into picturebook_character (id, picturebookId,page,imageURL,name,narrat) values (?,?,?,?,?,?)", 
+                UUID.randomUUID().toString(),
                 meta.getId(),
                 characterSpec.getPage(),
                 characterSpec.getImageURL(),
@@ -129,7 +131,8 @@ public class PictureBookMetaServiceImpl implements PictureBookMetaService{
         }
         for(SceneSpec sceneSpec : meta.getSceneSpecs()){
             jdbcTemplate.update(
-                "insert into picturebook_scene (picturebookId,page,imageURL)", 
+                "insert into picturebook_scene (id, picturebookId,page,imageURL) values (?,?,?,?)", 
+                UUID.randomUUID().toString(),
                 meta.getId(),
                 sceneSpec.getPage(),
                 sceneSpec.getImageURL());
