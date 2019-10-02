@@ -3,6 +3,22 @@ class PictureBookMetaJS{
         this.rootURL=root+"/webapi";
     }
     
+    createFromStoryBook(storyBookId){
+        let url=this.rootURL+"/picturebook/new/storybook/"+storyBookId;
+        let p=new Promise((resolve, reject)=>{
+            $.ajax(url, {
+                contentType: "application/json",
+                success: function(data){
+                    resolve(data);
+                },
+                error: function(xhr){
+                    reject(xhr);
+                }
+            });
+        });
+        return p;
+    }
+    
     findByStoryBook(storyBookId){
         let url=this.rootURL+"/picturebook/storybook/"+storyBookId;
         let p=new Promise((resolve, reject)=>{

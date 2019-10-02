@@ -4,6 +4,9 @@
     Author     : lendle
 --%>
 
+<%@page import="java.util.Map"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta.CharacterBlock"%>
+<%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta.Characters"%>
 <%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBookMeta"%>
 <%@page import="rocks.imsofa.bp.kidscoding.editor.service.PictureBookMetaService"%>
 <%@page import="rocks.imsofa.bp.kidscoding.editor.model.StoryBook"%>
@@ -22,8 +25,10 @@
             integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
         crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/south-street/jquery-ui.css"/>
-        <script src="../js/StoryMetaJS.js" type="text/javascript"></script>
-        <script src="../js/StoryBookJS.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="../../js/StoryMetaJS.js" type="text/javascript"></script>
+        <script src="../../js/StoryBookJS.js" type="text/javascript"></script>
+        <script src="../../js/PictureBookMetaJS.js" type="text/javascript"></script>
         <style>
             .ui-tabs-vertical { width: 55em; }
             .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
@@ -35,20 +40,50 @@
     </head>
     <body>
         <script>
-            $(document).ready(function () {
+            let url = window.location.href;
+            let index = url.lastIndexOf("/storybook");
+            let storyMetaWS = new StoryMetaJS(url.substring(0, index));
+            let storyBookWS = new StoryBookJS(url.substring(0, index));
+            let pictureBookWS = new PictureBookMetaJS(url.substring(0, index));
+            let storyBook = null;
+            
+            let vue = null;
+
+            async function run() {
+                let pictureBook = null;
+                let characterSpecsMap = {};
+                storyBook = await storyBookWS.getStoryBook("<%=request.getParameter("storyBookId")%>");
+                pictureBook = await pictureBookWS.createFromStoryBook("<%=request.getParameter("storyBookId")%>");
+                pictureBook.characterSpecs.sort((a, b) => {
+                    return a.page - b.page;
+                });
+                pictureBook.sceneSpecs.sort((a, b) => {
+                    return a.page - b.page;
+                });
+                //collect characterspecs and put them into map with character names as the key
+                for (let c of pictureBook.characterSpecs) {
+                    if (!characterSpecsMap[c.name]) {
+                        characterSpecsMap[c.name] = [];
+                    }
+                    characterSpecsMap[c.name].push(c);
+                }
+                vue = new Vue({
+                    el: "#tabs",
+                    data: {
+                        "pictureBook": pictureBook,
+                        "characterSpecsMap": characterSpecsMap
+                    }
+                });
                 $("#tabs").tabs();
                 $("#charactersList").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
                 $("#charactersList li").removeClass("ui-corner-top").addClass("ui-corner-left");
+            }
+
+            $(document).ready(function () {
+                run();
             });
         </script>
-        <%
-            String storyBookId=request.getParameter("storyBookId");
-            StoryBookService storyBookService=RequestContextUtils.findWebApplicationContext(request).getBean(StoryBookService.class);
-            StoryBook storyBook=storyBookService.getStoryBook(request.getParameter("storyBookId"));
-            StoryBookMeta meta=storyBook.getMeta();
-            //PictureBookMetaService pictureBookMetaService=RequestContextUtils.findWebApplicationContext(request).getBean(PictureBookMetaService.class);
-            int pageCount=storyBook.getPageContents().size();
-        %>
+
         <div id="tabs">
             <ul>
                 <li><a href="#characters">角色</a></li>
@@ -57,41 +92,16 @@
             <div id="characters">
                 <div id="charactersList">
                     <ul>
-                        <li><a href="#a">皮卡丘</a></li>
-                        <li><a href="#b">怪物</a></li>
+                        <li v-for="(value, name) in characterSpecsMap">
+                            <a v-bind:href="'#'+name">{{name}}</a>
+                        </li>
                     </ul>
-                    <div id="a">
-                        <table style="width: 100%">
+                    <div v-for="(value, name) in characterSpecsMap" v-bind:id="name">
+                        <table style="width:100%">
                             <tbody>
-                                <tr>
-                                    <td style="width: 20%">Page 0</td>
-                                    <td style="width: 80%"><input type="text" style="width: 100%"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Page 1</td>
-                                    <td><input type="text" style="width: 100%"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Page 2</td>
-                                    <td><input type="text" style="width: 100%"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="b">
-                        <table style="width: 100%">
-                            <tbody>
-                                <tr>
-                                    <td style="width: 20%">Page 0</td>
-                                    <td style="width: 80%"><input type="text" style="width: 100%"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Page 1</td>
-                                    <td><input type="text" style="width: 100%"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Page 2</td>
-                                    <td><input type="text" style="width: 100%"/></td>
+                                <tr v-for="(c, index) in value">
+                                    <td style="width: 20%">Page {{index}}</td>
+                                    <td style="width: 80%"><input type="text" style="width: 100%" v-bind:id="'character_'+name+'_'+index" v-model="c.imageURL"/></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -101,17 +111,9 @@
             <div id="scenes">
                 <table style="width: 100%">
                     <tbody>
-                        <tr>
-                            <td style="width: 20%">Page 0</td>
-                            <td style="width: 80%"><input type="text" style="width: 100%"/></td>
-                        </tr>
-                        <tr>
-                            <td>Page 1</td>
-                            <td><input type="text" style="width: 100%"/></td>
-                        </tr>
-                        <tr>
-                            <td>Page 2</td>
-                            <td><input type="text" style="width: 100%"/></td>
+                        <tr v-for="(value, index) in pictureBook.sceneSpecs">
+                            <td style="width: 20%">Page {{index}}</td>
+                            <td style="width: 80%"><input type="text" style="width: 100%" v-bind:id="'scene_'+index" v-model="value.imageURL"/></td>
                         </tr>
                     </tbody>
                 </table>
