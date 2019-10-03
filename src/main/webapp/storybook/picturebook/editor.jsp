@@ -46,6 +46,7 @@
             let storyBookWS = new StoryBookJS(url.substring(0, index));
             let pictureBookWS = new PictureBookMetaJS(url.substring(0, index));
             let storyBook = null;
+            let id=<%=(request.getParameter("id")!=null)?"\""+request.getParameter("id")+"\"":"null"%>
 
             let vue = null;
 
@@ -53,7 +54,7 @@
                 let pictureBook = null;
                 let characterSpecsMap = {};
                 storyBook = await storyBookWS.getStoryBook("<%=request.getParameter("storyBookId")%>");
-                pictureBook = await pictureBookWS.createFromStoryBook("<%=request.getParameter("storyBookId")%>");
+                pictureBook = (id==null)? await pictureBookWS.createFromStoryBook("<%=request.getParameter("storyBookId")%>"): await pictureBookWS.findById(id);
                 pictureBook.characterSpecs.sort((a, b) => {
                     return a.page - b.page;
                 });
@@ -78,8 +79,15 @@
                             console.log(1);
                             (async function(){
                                 console.log(vue.pictureBook);
-                                let ret=await pictureBookWS.addPictureBookMeta(vue.pictureBook);
-                                console.log(ret);
+                                if(!vue.pictureBook.id){
+                                    let ret=await pictureBookWS.addPictureBookMeta(vue.pictureBook);
+                                    alert("存檔完成！");
+                                    window.location.href="../listing.jsp?storyBookId="+vue.pictureBook.originalStoryId;
+                                }else{
+                                    let ret=await pictureBookWS.updatePictureBookMeta(vue.pictureBook);
+                                    alert("存檔完成！");
+                                    window.location.href="../listing.jsp?storyBookId="+vue.pictureBook.originalStoryId;
+                                }
                             })();
                             
                         }
@@ -95,7 +103,8 @@
             });
         </script>
         <div id="app">
-            <button v-on:click="save();">Save</button>
+            <button v-on:click="save();">Save</button><br/>
+            標題：<input type="text" v-model="pictureBook.title"/><br/>
             <div id="tabs">
                 <ul>
                     <li><a href="#characters">角色</a></li>

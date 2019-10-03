@@ -70,7 +70,7 @@ public class PictureBookMetaServiceImpl implements PictureBookMetaService{
             meta.getCharacterSpecs().addAll(characterSpecs);
             
             List<SceneSpec> sceneSpecs=jdbcTemplate.query(
-                    "select * from picturebook_character where picturebookId=?", 
+                    "select * from picturebook_scene where picturebookId=?", 
                     new Object[]{id}, 
                     new RowMapper<SceneSpec>(){
                 @Override
@@ -111,14 +111,14 @@ public class PictureBookMetaServiceImpl implements PictureBookMetaService{
     @Override
     @Transactional
     public PictureBookMeta addPictureBookMeta(PictureBookMeta meta) {
-        System.out.println("meta.id="+meta.getId());
         String uuid=(meta.getId()==null)?UUID.randomUUID().toString():meta.getId();
         meta.setId(uuid);
         jdbcTemplate.update(
-                "insert into picturebook (id, story, author) values (?,?,?)", 
+                "insert into picturebook (id, story, author, title) values (?,?,?,?)", 
                 meta.getId(),
                 meta.getOriginalStoryId(),
-                meta.getAuthor());
+                meta.getAuthor(),
+                meta.getTitle());
         for(CharacterSpec characterSpec : meta.getCharacterSpecs()){
             jdbcTemplate.update(
                 "insert into picturebook_character (id, picturebookId,page,imageURL,name,narrat) values (?,?,?,?,?,?)", 
@@ -143,6 +143,7 @@ public class PictureBookMetaServiceImpl implements PictureBookMetaService{
     @Override
     @Transactional
     public void updatePictureBookMeta(PictureBookMeta meta) {
+        System.out.println("delete: "+meta.getId());
         this.deletePictureBookMeta(meta.getId());
         this.addPictureBookMeta(meta);
     }

@@ -10,7 +10,7 @@
        xmlns:context="http://www.springframework.org/schema/context">
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/> 
-        <property name="url" value="jdbc:mysql://localhost/bpkidscoding"/> 
+        <property name="url" value="jdbc:mysql://localhost/bpkidscoding?characterEncoding=utf8"/> 
         <property name="username" value="bpkidscoding"/> 
         <property name="password" value="bpkidscoding"/> 
     </bean>

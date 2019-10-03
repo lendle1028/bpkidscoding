@@ -108,6 +108,7 @@ public class MonogatariSession {
         List<StoryBook.PageContent> pageContents = storyBook.getPageContents();
         for (int i = 0; i < pageContents.size(); i++) {
             SceneSpec sceneSpec = this.meta.getSceneSpec(i);
+            System.out.println("scene="+sceneSpec.getImageURL());
             this.commands.add("\"scene url(\'" + sceneSpec.getImageURL() + "\')\"");
             StoryBook.PageContent pageContent = pageContents.get(i);
             //System.out.println("block="+pageContent.get("blocks"));
@@ -118,7 +119,7 @@ public class MonogatariSession {
                 if ("characterQuote".equals(pageJson.getType())) {
                     //out.println("\"show "+data.get("character")+" "+data.get("message")+"\",");
                     String character = (String) data.get("character");
-                    System.out.println("character=" + character);
+                    //System.out.println("character=" + character);
                     CharacterSpec characterSpec = this.meta.getCharacterSpec(character, i);
                     String state = "Normal";
                     if (characterSpec.getPage() != -1) {
@@ -145,7 +146,7 @@ public class MonogatariSession {
         String randomName = "" + System.currentTimeMillis() + "." + extension;
         FileUtils.copyFile(tempFile, new File(sessionFolder, randomName));
         
-        System.out.println(tempFile.getAbsolutePath());
+        //System.out.println(tempFile.getAbsolutePath());
         tempFile.deleteOnExit();
         return randomName;
         /*System.setProperty("http.agent", "Mozilla");

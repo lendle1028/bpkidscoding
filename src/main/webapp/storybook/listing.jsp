@@ -95,7 +95,7 @@
                     <%
                         for(PictureBookMeta meta : metas){
                             out.println("<tr><td>");
-                            out.println("<a href='reader/index.jsp?id="+meta.getId()+"' target='_blank'><img style='width: 100px' src='"+meta.getCharacterSpecs().get(0).getImageURL()+"'/></a>");
+                            out.println("<a href='reader/index.jsp?storyBookId="+meta.getOriginalStoryId()+"&id="+meta.getId()+"' target='_blank'><img style='width: 100px' src='"+meta.getCharacterSpecs().get(0).getImageURL()+"'/></a>");
                             out.println("</td><td>");
                             out.println(meta.getTitle());
                             out.println("<a href='picturebook/editor.jsp?storyBookId="+request.getParameter("storyBookId")+"&id="+meta.getId()+"'><button>編輯</button></a>");
