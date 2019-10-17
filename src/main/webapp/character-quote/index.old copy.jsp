@@ -25,36 +25,38 @@
     <link href="https://code.jquery.com/ui/1.12.1/themes/le-frog/jquery-ui.css" rel="stylesheet" />
     <script src="../js/StoryMetaJS.js" type="text/javascript"></script>
     <script src="../js/StoryBookJS.js" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
-        crossorigin="anonymous"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" /-->
 </head>
 
-<body>11
-    <div id="container" class="container-fluid">
+<body>111
+    <div id="container">
         <div id="header">
             <h1 id="title" onclick="showEditBookNameDialog();">書名</h1>&nbsp;<h2 id="page">第一頁</h2>
         </div>
-        <div id="content" style="width: 100%">
-            <div class="row" style="width: 100%">
-                <ul class="list-group col-2" style="width: 100%">
-                    <li class="list-group-item list-group-item-warning" onclick="flipIntro();" style="cursor: pointer; width: 100%">簡介</li>
-                    <li class="list-group-item list-group-item-warning" onclick="flipCharacters();" style="cursor: pointer; width: 100%">角色介紹</li>
-                    <li class="list-group-item list-group-item-warning" v-for="(page, index) in book.data" v-on:click="flip2Page(index);" style="cursor: pointer; width: 100%">
-                        第{{index+1}}頁
-                    </li>
-                </ul>
-                <div id="editorContainer" class="col-10">
-                    <!--div id="editorjs"></div-->
-                </div>
+        <div id="content">
+            <div id="tree">
+                <table style="width: 100%;">
+                    <tr>
+                        <td onclick="flipIntro();">簡介</td>
+                    </tr>
+                    <tr>
+                        <td onclick="flipCharacters();">角色介紹</td>
+                    </tr>
+                    <tr>
+                        <td onclick="flip(0);">第一頁</td>
+                    </tr>
+                    <tr>
+                        <td onclick="flip(1);">第二頁</td>
+                    </tr>
+                    <tr>
+                        <td onclick="flip(2);">第三頁</td>
+                    </tr>
+                </table>
             </div>
-
-
+            <div id="editorContainer">
+                <!--div id="editorjs"></div-->
+            </div>
         </div>
 
     </div>
@@ -81,28 +83,6 @@
         };
         var currentEditorType = null;
         var currentPage = -1;
-        var currentBook = null;
-        let url = window.location.href;
-        let index = url.lastIndexOf("/");
-        let ws2 = new StoryBookJS(url.substring(0, index) + "/..");
-        //let data=null;
-        let vue = null;
-        ws2.getStoryBook("<%=request.getParameter("id")%>").then((book) => {
-            console.log(book);
-            currentBook = book;
-            vue = new Vue({
-                el: "#container",
-                data: {
-                    book: book
-                },
-                methods: {
-                    flip2Page: function (index) {
-                        flip(index);
-                    }
-                }
-            });
-        });
-
         function showEditBookNameDialog() {
             $("#editBookNameDialog_name").val(data.title);
             $("#editBookNameDialog").dialog({
@@ -127,16 +107,16 @@
         }
 
         function flipIntro() {
-            showEditorJSUI(currentBook.summary, TOOL_SET.INTRO);
+            showEditorJSUI(data.summary, TOOL_SET.INTRO);
         }
 
         function flipCharacters() {
-            showEditorJSUI(currentBook.characters, TOOL_SET.CHARACTERS);
+            showEditorJSUI(data.characters, TOOL_SET.CHARACTERS);
         }
 
         function flip(index) {
             currentPage = index;
-            showEditorJSUI(currentBook.data[index], TOOL_SET.PAGE);
+            showEditorJSUI(data.data[index], TOOL_SET.PAGE);
         }
 
         function showEditorJSUI(data, toolset = TOOL_SET.PAGE) {
@@ -190,8 +170,15 @@
                 "data": data
             });
         }
-
-
+        
+        let url=window.location.href;
+        let index=url.lastIndexOf("/");
+        let ws2=new StoryBookJS(url.substring(0, index)+"/..");
+        let data=null;
+        ws2.getStoryBook("<%=request.getParameter("id")%>").then((book)=>{
+            data = book;
+        });
+        
         /*let data = {
             title: "Book1",
             summary: { "time": 1563781369246, "blocks": [{ "type": "os", "data": { "message": "簡介" } }], "version": "2.15.0" },
