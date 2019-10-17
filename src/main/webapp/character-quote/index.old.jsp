@@ -31,11 +31,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
         integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+        integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script> -->
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" /-->
 </head>
 
-<body>11
+<body>
     <div id="container" class="container-fluid">
         <div id="header">
             <h1 id="title" onclick="showEditBookNameDialog();">書名</h1>&nbsp;<h2 id="page">第一頁</h2>
@@ -43,10 +45,24 @@
         <div id="content" style="width: 100%">
             <div class="row" style="width: 100%">
                 <ul class="list-group col-2" style="width: 100%">
-                    <li class="list-group-item list-group-item-warning" onclick="flipIntro();" style="cursor: pointer; width: 100%">簡介</li>
-                    <li class="list-group-item list-group-item-warning" onclick="flipCharacters();" style="cursor: pointer; width: 100%">角色介紹</li>
-                    <li class="list-group-item list-group-item-warning" v-for="(page, index) in book.data" v-on:click="flip2Page(index);" style="cursor: pointer; width: 100%">
-                        第{{index+1}}頁
+                    <li class="list-group-item list-group-item-warning" onclick="flipIntro();"
+                        style="cursor: pointer; width: 100%">簡介</li>
+                    <li class="list-group-item list-group-item-warning" onclick="flipCharacters();"
+                        style="cursor: pointer; width: 100%">角色介紹</li>
+                    <li class="list-group-item list-group-item-warning" v-for="(page, index) in book.data"
+                         style="width: 100%">
+                        <div class="row">
+                            <div class="col-9" style="cursor: pointer; " v-on:click="flip2Page(index);">
+                                第{{index+1}}頁
+                            </div>
+                            <div class="col-3 float-right" >
+                                <span class="fa fa-trash-alt" style="cursor: pointer;"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item list-group-item-warning" onclick="flipCharacters();"
+                        style="cursor: pointer; width: 100%">
+                        <button class="btn btn-primary float-center"><span class="fa fa-plus"></span></button>
                     </li>
                 </ul>
                 <div id="editorContainer" class="col-10">
