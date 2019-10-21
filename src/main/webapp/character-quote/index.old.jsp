@@ -44,19 +44,24 @@
         </div>
         <div id="content" style="width: 100%">
             <div class="row" style="width: 100%">
-                <ul class="list-group col-2" style="width: 100%">
+                <ul class="list-group col-2" style="width: 100%;">
                     <li class="list-group-item list-group-item-warning" onclick="flipIntro();"
                         style="cursor: pointer; width: 100%">簡介</li>
                     <li class="list-group-item list-group-item-warning" onclick="flipCharacters();"
                         style="cursor: pointer; width: 100%">角色介紹</li>
                     <li class="list-group-item list-group-item-warning" v-for="(page, index) in book.data"
-                         style="width: 100%">
-                        <div class="row">
-                            <div class="col-9" style="cursor: pointer; " v-on:click="flip2Page(index);">
+                         style="width: 100%;padding: 0px">
+                        <div class="row" style="width: 100%; ">
+                            <div class="col-6" style="cursor: pointer; " v-on:click="flip2Page(index);">
                                 第{{index+1}}頁
                             </div>
-                            <div class="col-3 float-right" >
-                                <span class="fa fa-trash-alt" style="cursor: pointer;"></span>
+                            <div class="col-6 float-right" style="min-width: 70px">
+                                <span v-on:click="insertBefore(index);"
+                                    style="content: url('icons8-ios-20.png'); display: inline-block; line-height: 1; width: 20px; height: 20px"> </span>
+                                <span v-on:click="remove(index);" 
+                                    class="fa fa-trash-alt" style="cursor: pointer;"></span>
+                                <span v-on:click="insertAfter(index);"
+                                    style="content: url('icons8-insert-row-20.png'); display: inline-block; line-height: 1; width: 20px; height: 20px"></span>
                             </div>
                         </div>
                     </li>
@@ -114,6 +119,19 @@
                 methods: {
                     flip2Page: function (index) {
                         flip(index);
+                    },
+                    insertBefore: function(index){
+                        book.data.splice(index, 0, {
+                            blocks:[],
+                            time: new Date().getTime(),
+                            version: "2.15.0"
+                        });
+                    },
+                    remove: function(index){
+                        book.data.splice(index, 1);
+                    },
+                    insertAfter: function(index){
+
                     }
                 }
             });
@@ -166,6 +184,7 @@
                             //todo: 儲存
                             if (save) {
                                 if (currentEditorType == "page") {
+                                    console.log("currentPage="+currentPage);
                                     data.data[currentPage] = savedData;
                                 } else if (currentEditorType == "summary") {
                                     data.summary = savedData;
